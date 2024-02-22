@@ -20,12 +20,15 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { Approutes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpinnerComponent } from './shared/spinner.component';
+import { LoginComponent } from './login/login.component';
+import { DietaModule } from './dieta/dieta.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SpinnerComponent,
+    LoginComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +42,7 @@ import { SpinnerComponent } from './shared/spinner.component';
     FullComponent,
     NavigationComponent,
     SidebarComponent,
+
   ],
   providers: [
     {
