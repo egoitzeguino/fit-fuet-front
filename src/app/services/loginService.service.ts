@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,13 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   authenticate(email: string, contrasenia: string): void {
-    this.http.post<any>('http://localhost:3721/api/Default', { email, contrasenia }).subscribe(
+    console.log(email,contrasenia);
+    let params = new HttpParams();
+    params = params.append('email', email);
+    params = params.append('passwd', contrasenia);
+
+    // Realizar la solicitud GET con los parámetros en la URL
+    this.http.get<any>('http://localhost:3721/api/Usuario/login', { params }).subscribe(
       response => {
         const isAuthenticated = response.authenticated;
         this.isAuthenticatedSubject.next(isAuthenticated);

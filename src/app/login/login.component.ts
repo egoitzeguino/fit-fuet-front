@@ -41,15 +41,11 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.loginForm.valid) {
-      const emailControl = this.loginForm.get('username');
-      const contraseniaControl = this.loginForm.get('password');
-
-      if (emailControl && contraseniaControl) {
-        const email = emailControl.value;
-        const contrasenia = contraseniaControl.value;
-
-        this.loginService.authenticate(email, contrasenia);
-      }
+      const email = this.loginForm.get('email')?.value;
+      const contrasenia = this.loginForm.get('contrasenia')?.value;
+  
+      this.loginService.authenticate(email, contrasenia);
     }
   }
+  
 }
