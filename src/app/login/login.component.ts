@@ -8,6 +8,11 @@ import { Component } from '@angular/core';
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  theme: string = 'light'; // Default theme
+
+  toggleTheme() {
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+  }
 
   login() {
     if (this.username === 'usuario' && this.password === 'contraseña') {
