@@ -10,7 +10,6 @@ export class LoginComponent {
   password: string = '';
 
   login() {
-    // Aquí puedes agregar la lógica de autenticación
     if (this.username === 'usuario' && this.password === 'contraseña') {
       alert('Inicio de sesión exitoso');
     } else {
