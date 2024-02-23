@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { FullComponent } from './layouts/full/full.component';
 import { LoginComponent } from './login/login.component';
+import { RegistroComponent } from './registro/registro.component';
 
 export const Approutes: Routes = [
   {
@@ -25,6 +26,10 @@ export const Approutes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'registro',
+        component: RegistroComponent
       },
       {
         path: 'datos-personales',
