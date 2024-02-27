@@ -13,12 +13,16 @@ import { SpinnerComponent } from './shared/spinner.component';
 import { LoginComponent } from './login/login.component';
 import { NavigationComponent } from './shared/header/navigation.component';
 import { NavigationModule } from './shared/header/navigation.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RegistroComponent } from './registro/registro.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
     SpinnerComponent,
     LoginComponent,
+    RegistroComponent
   ],
   imports: [
     CommonModule,
@@ -28,10 +32,12 @@ import { NavigationModule } from './shared/header/navigation.module';
     ReactiveFormsModule,
     HttpClientModule,
     NavigationModule,
-    NgbDropdownModule, 
+    NgbDropdownModule,
     NgbModule,
     RouterModule.forRoot(Approutes, { useHash: false }),
     FullComponent,
+    MatSnackBarModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {

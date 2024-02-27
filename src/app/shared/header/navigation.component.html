@@ -1,5 +1,5 @@
 <ul class="navbar-nav float-end">
-  <li class="nav-item" placement="bottom-end" *ngIf="inicioSesion===true && menu===false">
+  <li class="nav-item" placement="bottom-end" *ngIf="inicioSesion === true && menu === false">
     <a
       class="nav-link waves-effect waves-dark pro-pic"
       href="/login"
@@ -17,7 +17,7 @@
       <span class="ms-2">Login</span>
     </a>
   </li>
-  <li class="nav-item" ngbDropdown placement="bottom-end" *ngIf="menu===true">
+  <li class="nav-item" ngbDropdown placement="bottom-end" *ngIf="inicioSesion === true && menu === true">
     <a
       ngbDropdownToggle
       class="nav-link waves-effect waves-dark pro-pic"
@@ -44,7 +44,7 @@
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="/objetivos"> Objetivos</a>
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="/about" (click)="logout()">Logout</a>
+      <a class="dropdown-item" href="/dashboard" (click)="logout()">Logout</a>
     </div>
   </li>
 </ul>

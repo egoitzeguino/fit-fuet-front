@@ -1,36 +1,37 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  private isAuthenticatedSubject: BehaviorSubject<boolean>;
+  public isAuthenticated$: Observable<boolean>;
 
-  constructor(private http: HttpClient) {}
-
-  authenticate(email: string, contrasenia: string): void {
-    console.log(email,contrasenia);
-    let params = new HttpParams();
-    params = params.append('email', email);
-    params = params.append('passwd', contrasenia);
-
-    // Realizar la solicitud GET con los parámetros en la URL
-    this.http.get<any>('http://localhost:3721/api/Usuario/login', { params }).subscribe(
-      response => {
-        const isAuthenticated = response.authenticated;
-        this.isAuthenticatedSubject.next(isAuthenticated);
-      },
-      error => {
-        console.error('Error en la autenticación:', error);
-        this.isAuthenticatedSubject.next(false);
-      }
-    );
+  constructor(private http: HttpClient) {
+    this.isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+    this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   }
+  authenticateGet(email: string, contrasenia: string): Observable<boolean> {
+    const apiUrl = `http://localhost:3721/api/Usuario/login?email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(contrasenia)}`;
 
-  logout(): void {
-    this.isAuthenticatedSubject.next(false);
+    return this.http.get<any>(apiUrl).pipe(
+      map((response) => {
+        const token = response.token;
+        localStorage.setItem('authToken', token);
+        this.isAuthenticatedSubject.next(true);
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Authentication failed:', error);
+
+        if (error.status === 405) {
+          console.error('Method Not Allowed: Ensure the server supports the HTTP GET method.');
+        }
+        this.isAuthenticatedSubject.next(false);
+        return of(false);
+      })
+    );
   }
 }
