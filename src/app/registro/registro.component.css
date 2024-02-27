@@ -1,10 +1,9 @@
-/* Light Theme */
+
 .light-theme {
   background-color: #ffffff;
   color: #000000;
 }
 
-/* Dark Theme */
 .dark-theme {
   background-color: #000000;
   color: #ffffff;
@@ -16,12 +15,12 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  text-align: center; /* Centro el contenido */
+  text-align: center;
 }
 
 .form-group {
   margin-bottom: 15px;
-  text-align: left; /* Alineo los campos a la izquierda */
+  text-align: left; 
 }
 
 .form-control {
@@ -45,4 +44,9 @@
 
 .btn-primary:hover {
   background-color: #0056b3;
+}
+
+.error-message{
+  color: red;
+  font-size:10px;
 }
