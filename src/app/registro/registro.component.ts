@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors, Vali
 import { LoginService } from '../services/loginService.service';
 import { Router } from '@angular/router';
 
-import { ToastrService } from 'ngx-toastr';
 import { RegisterService } from '../services/registerService.service';
 import Swal from 'sweetalert2';
 
