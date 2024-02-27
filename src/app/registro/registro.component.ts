@@ -2,15 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors, ValidatorFn, AbstractControl } from '@angular/forms';
 import { LoginService } from '../services/loginService.service';
 import { Router } from '@angular/router';
+
 import { ToastrService } from 'ngx-toastr';
 import { RegisterService } from '../services/registerService.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.css']
+  styleUrls: ['./registro.component.css'],
 })
-export class RegistroComponent implements OnInit {
+export class RegistroComponent {
   theme: string = 'light';
   registerForm!: FormGroup;
 
@@ -19,21 +21,19 @@ export class RegistroComponent implements OnInit {
     private loginService: LoginService,
     private registerService: RegisterService,
     private router: Router,
-    private toastr: ToastrService,
-  ) {}
-
-  ngOnInit(): void {
-    this.registerForm = new FormGroup({
-      dni: new FormControl('', Validators.required),
-      nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-      apellido: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-      email: new FormControl('', [Validators.required, Validators.maxLength(50), Validators.email]),
-      contrasenia: new FormControl('', [Validators.required]),
-      contrasenia2: new FormControl('', Validators.required)
-    }, { validators: this.contraseniaIgual });
+  )
+  {
+    this.registerForm = this.fb.group({
+      dni: ['', [Validators.required, this.dniValidator]],
+      nombre: ['', [Validators.required, Validators.maxLength(20)]],
+      apellido: ['', [Validators.required, Validators.maxLength(20)]],
+      email: ['', [Validators.required, Validators.maxLength(50), Validators.email]],
+      contrasenia: ['', [Validators.required, this.contraseniaValidator]],
+      contrasenia2: ['', Validators.required],
+    }, { validator: this.contraseniaIgual });
   }
 
-  dniValidator(control: FormControl) {
+  dniValidator(control: AbstractControl) {
     const dniRegex = /^[0-9]{8}[a-zA-Z]$/;
     if (control.value && !dniRegex.test(control.value)) {
       return { invalidDni: true };
@@ -41,7 +41,7 @@ export class RegistroComponent implements OnInit {
     return null;
   }
 
-  contraseniaValidator(control: FormControl) {
+  contraseniaValidator(control: AbstractControl) {
     const contraseniaRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
     if (control.value && !contraseniaRegex.test(control.value)) {
       return { invalidContrasenia: true };
@@ -49,47 +49,11 @@ export class RegistroComponent implements OnInit {
     return null;
   }
 
-  contraseniaIgual() {
-    return (control: FormControl) => {
-      if (control.value !== this.registerForm.get('contrasenia')!.value) {
-        return { invalidContrasenia: true };
-      }
-      return null;
-    }
+  contraseniaIgual(group: FormGroup): any {
+    const contrasenia = group.controls['contrasenia'].value;
+    const contrasenia2 = group.controls['contrasenia2'].value;
+    return contrasenia === contrasenia2 ? null : {notSame: true}
   }
-
-  combinedValidators(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const errors: ValidationErrors = {};
-
-      const dniControl = control.get('dni');
-      if (dniControl instanceof FormControl) {
-        const dniError = this.dniValidator(dniControl);
-        if (dniError) {
-          Object.assign(errors, dniError);
-        }
-      }
-
-      const contraseniaControl = control.get('contrasenia');
-      if (contraseniaControl instanceof FormControl) {
-        const contraseniaError = this.contraseniaValidator(contraseniaControl);
-        if (contraseniaError) {
-          Object.assign(errors, contraseniaError);
-        }
-      }
-
-      const contrasenia2Control = control.get('contrasenia2');
-      if (contrasenia2Control instanceof FormControl) {
-        const contraseniaIgualError = this.contraseniaIgual()(contrasenia2Control);
-        if (contraseniaIgualError) {
-          Object.assign(errors, contraseniaIgualError);
-        }
-      }
-
-      return Object.keys(errors).length ? errors : null;
-    };
-  }
-
 
   register() {
     if (this.registerForm.valid) {
@@ -101,16 +65,32 @@ export class RegistroComponent implements OnInit {
 
       this.registerService.register(dni, nombre, apellido, email, contrasenia).subscribe(
         () => {
-          this.toastr.success('Usuario creado con éxito', 'Éxito');
+          Swal.fire({
+            icon: 'success',
+            title: 'Usuario creado',
+            text: 'Â¡Usuario creado con exito!',
+            confirmButtonText: 'Cerrar'
+          });
           this.router.navigate(['/login']);
         },
         error => {
-          this.toastr.error('Error al registrar usuario: ' + error.message, 'Error');
+          Swal.fire({
+            icon: 'error',
+            title: 'Registro incorrecto',
+            text: 'Ha ocurrido un error al crear el usuario',
+            confirmButtonText: 'Cerrar'
+          });
         }
       );
     } else {
-      console.log("ERROR")
-      this.toastr.error('Por favor, complete todos los campos correctamente', 'Error');
+      this.registerForm.markAllAsTouched();
+      console.log("ERROR");
+      Swal.fire({
+        icon: 'error',
+        title: 'Registro incorrecto',
+        text: 'Complete todos los campos',
+        confirmButtonText: 'Cerrar'
+      });
     }
   }
 }

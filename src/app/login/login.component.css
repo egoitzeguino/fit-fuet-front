@@ -55,12 +55,20 @@
     color: #007bff; /* Cambio el color del enlace */
   }
 
-.snackbar-success {
-  background-color: #4CAF50;
-  color: white;
-}
+  .toast-success {
+    background-color: #4CAF50; /* Green background for success */
+    color: #ffffff; /* White text for success */
+  }
 
-.snackbar-error {
-  background-color: #f44336;
-  color: white;
-}
+  .toast-error {
+    background-color: #f44336; /* Red background for error */
+    color: #ffffff; /* White text for error */
+  }
+
+  /* Otras personalizaciones */
+  .toast {
+    font-size: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+  }

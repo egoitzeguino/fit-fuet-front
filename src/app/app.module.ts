@@ -11,11 +11,11 @@ import { Approutes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpinnerComponent } from './shared/spinner.component';
 import { LoginComponent } from './login/login.component';
-import { NavigationComponent } from './shared/header/navigation.component';
 import { NavigationModule } from './shared/header/navigation.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RegistroComponent } from './registro/registro.component';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -37,13 +37,14 @@ import { ToastrModule } from 'ngx-toastr';
     RouterModule.forRoot(Approutes, { useHash: false }),
     FullComponent,
     MatSnackBarModule,
-    ToastrModule.forRoot()
+    ToastModule
   ],
   providers: [
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy
     },
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

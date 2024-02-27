@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from './../services/loginService.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private loginService: LoginService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -46,15 +47,19 @@ login() {
         (isAuthenticated: any) => {
           if (isAuthenticated) {
             this.router.navigate(['/about']);
-            this.snackBar.open('Inicio de sesión exitoso', 'Cerrar', {
-              duration: 5000,
-              panelClass: ['snackbar-success']
+            Swal.fire({
+              icon: 'success',
+              title: 'Inicio de sesión exitoso',
+              text: '¡Bienvenido!',
+              confirmButtonText: 'Cerrar'
             });
           } else {
             this.loginErrorMessage = 'Email o contraseña incorrectos';
-            this.snackBar.open('Inicio de sesión incorrecto', 'Cerrar', {
-              duration: 5000,
-              panelClass: ['snackbar-error']
+            Swal.fire({
+              icon: 'error',
+              title: 'Inicio de sesión incorrecto',
+              text: 'Email o contraseña incorrectos',
+              confirmButtonText: 'Cerrar'
             });
           }
         },

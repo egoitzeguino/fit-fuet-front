@@ -8,7 +8,7 @@
               <div class="form-group">
                   <label for="dni">DNI</label>
                   <input type="text" id="dni" class="form-control" placeholder="Introduce tu DNI" formControlName="dni">
-                  <div *ngIf="registerForm.get('dni')?.touched && registerForm.get('dni')?.hasError('required')">El DNI es obligatorio</div>
+                  <div *ngIf="registerForm.get('dni')?.touched && registerForm.get('dni')?.hasError('required')">El DNI es obligatorio (12345678A)</div>
                   <div *ngIf="registerForm.get('dni')?.touched && registerForm.get('dni')?.hasError('invalidDni')">El formato del DNI es inválido</div>
               </div>
               <div class="form-group">
@@ -45,7 +45,7 @@
                   <label for="confirmPassword">Confirmar Contraseña</label>
                   <input type="password" id="confirmPassword" class="form-control" placeholder="Confirma tu contraseña" formControlName="contrasenia2">
                   <div *ngIf="registerForm.get('contrasenia2')?.touched && registerForm.get('contrasenia2')?.hasError('required')">Repetir la contraseña es obligatorio</div>
-                  <div *ngIf="registerForm.get('contrasenia2')?.touched && registerForm.get('contrasenia2')?.hasError('invalidContrasenia')">Las contraseñas no coinciden</div>
+                  <div *ngIf="registerForm.get('contrasenia2')?.touched && registerForm.hasError('notSame')">Las contraseñas no coinciden</div>
               </div>
           </div>
       </div>
