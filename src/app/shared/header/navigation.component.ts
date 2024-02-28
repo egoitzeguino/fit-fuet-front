@@ -13,7 +13,6 @@ export class NavigationComponent implements AfterViewInit {
 
 
   constructor(private modalService: NgbModal) {
-
     this.inicioSesion = localStorage.getItem('inicioSesion') === 'true' || true;
     this.menu = localStorage.getItem('menu') === 'true' || false;
   }
@@ -27,6 +26,9 @@ export class NavigationComponent implements AfterViewInit {
   }
 
   logout() {
+    localStorage.removeItem("idUsuario");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("usuario");
     this.inicioSesion = true;
     this.menu = false;
     this.guardarEstado();

@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from './../services/loginService.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { EncryptionService } from '../services/encriptarService.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private snackBar: MatSnackBar,
+    private encryptionService: EncryptionService
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -37,24 +39,28 @@ export class LoginComponent implements OnInit {
     this.theme = this.theme === 'light' ? 'dark' : 'light';
   }
 
-login() {
-  if (this.loginForm.valid) {
-    const email = this.loginForm.get('email')?.value;
-    const contrasenia = this.loginForm.get('contrasenia')?.value;
+  login() {
+    if (this.loginForm.valid) {
+      const email = this.loginForm.get('email')?.value;
+      const contrasenia = this.loginForm.get('contrasenia')?.value;
+      const encriptedPasswd = this.encryptionService.encryptPassword(contrasenia);
 
-    this.loginService.authenticateGet(email, contrasenia)
-      .subscribe(
-        (isAuthenticated: any) => {
-          if (isAuthenticated) {
+      this.loginService.authenticateGet(email, encriptedPasswd)
+        .subscribe(
+          (response: any) => {
+            console.log(response);
+            localStorage.setItem('authToken', response.token);
+            const helper = new JwtHelperService();
+            const decodedToken = helper.decodeToken(response.token);
+            console.log(decodedToken);
+            const usuario = decodedToken.nombreUsuario + ' ' + decodedToken.apellidoUsuario;
+            const idUsuario = decodedToken.idUsuario;
+            localStorage.setItem('usuario', usuario);
+            localStorage.setItem('idUsuario', idUsuario);
             this.router.navigate(['/about']);
-            Swal.fire({
-              icon: 'success',
-              title: 'Inicio de sesión exitoso',
-              text: '¡Bienvenido!',
-              confirmButtonText: 'Cerrar'
-            });
-          } else {
-            this.loginErrorMessage = 'Email o contraseña incorrectos';
+          },
+          (error) => {
+            console.log(error);
             Swal.fire({
               icon: 'error',
               title: 'Inicio de sesión incorrecto',
@@ -62,12 +68,36 @@ login() {
               confirmButtonText: 'Cerrar'
             });
           }
+        );
+    }
+  }
+
+  olvidarContrasenia() {
+    const email = this.loginForm.get('email')?.value;
+    if (email) {
+      this.loginService.enviarContrasenia(email).subscribe(
+        response => {
+          console.log('Correo de recuperación de contraseña enviado correctamente:', response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Email enviado',
+            text: 'Correo enviado con éxito!',
+            confirmButtonText: 'Cerrar'
+          });
         },
-        (error) => {
-          console.error('Error during authentication:', error);
+        error => {
+          console.error('Error al enviar correo de recuperación de contraseña:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Email incorrecto',
+            text: 'Ha ocurrido un error al enviar correo',
+            confirmButtonText: 'Cerrar'
+          });
         }
       );
+    }
   }
-}
 
 }
+
+

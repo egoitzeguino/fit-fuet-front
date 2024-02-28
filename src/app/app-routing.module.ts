@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FullComponent } from './layouts/full/full.component';
 import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
+import { CambiarContraseniaComponent } from './cambiar-contrasenia/cambiar-contrasenia.component';
 
 export const Approutes: Routes = [
   {
@@ -30,6 +31,10 @@ export const Approutes: Routes = [
       {
         path: 'registro',
         component: RegistroComponent
+      },
+      {
+        path: 'cambiar-contrasenia',
+        component: CambiarContraseniaComponent
       },
       {
         path: 'datos-personales',
