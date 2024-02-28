@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { EncryptionService } from '../services/encriptarService.service';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
       const contrasenia = this.loginForm.get('contrasenia')?.value;
       const encriptedPasswd = this.encryptionService.encryptPassword(contrasenia);
 
-      this.loginService.authenticateGet(email, encriptedPasswd)
+      this.loginService.login(email, encriptedPasswd)
         .subscribe(
           (response: any) => {
             console.log(response);
@@ -57,7 +58,9 @@ export class LoginComponent implements OnInit {
             const idUsuario = decodedToken.idUsuario;
             localStorage.setItem('usuario', usuario);
             localStorage.setItem('idUsuario', idUsuario);
-            this.router.navigate(['/about']);
+            this.router.navigate(['/about']).then(() => {
+              window.location.reload();
+            });
           },
           (error) => {
             console.log(error);

@@ -10,6 +10,7 @@ export class NavigationComponent implements AfterViewInit {
   public showSearch = false;
   public inicioSesion: boolean =true;
   public menu: boolean = false;
+  public nombreUsuario: string | null = localStorage.getItem('usuario');
 
 
   constructor(private modalService: NgbModal) {
@@ -38,3 +39,10 @@ export class NavigationComponent implements AfterViewInit {
     localStorage.setItem('menu', this.menu.toString());
   }
 }
+
+/*
+  TODO:
+  La barra de la derecha tendrá las opciones "Datos personales", "Opciones", "Logout"
+  Datos personales tendrá los datos disponibles para editarlos, tanto los personales como los fit
+  Opciones tendrá la opción de cambiar contraseña,  cambiar tema, borrar cuenta
+*/

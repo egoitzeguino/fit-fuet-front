@@ -16,6 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RegistroComponent } from './registro/registro.component';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { AppConfig } from 'src/app-settings';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,10 @@ import { MessageService } from 'primeng/api';
     {
       provide: LocationStrategy,
       useClass: PathLocationStrategy
+    },
+    {
+      provide: 'APP_CONFIG',
+      useValue: AppConfig
     },
     MessageService
   ],

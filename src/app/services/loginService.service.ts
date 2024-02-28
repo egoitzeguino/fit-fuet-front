@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
@@ -7,14 +7,15 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
-  authenticateGet(email: string, contrasenia: string): Observable<boolean> {
-    const apiUrl = `http://localhost:3721/api/Usuario/login?email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(contrasenia)}`;
+  constructor(private http: HttpClient, @Inject('APP_CONFIG') private APIURL: any) { }
+  login(email: string, contrasenia: string): Observable<boolean> {
+    console.log(this.APIURL.URL);
+    const apiUrl = `${this.APIURL.URL}/api/Usuario/login?email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(contrasenia)}`;
     return this.http.get<any>(apiUrl);
   }
 
   enviarContrasenia(email: string): Observable<string> {
-    const apiUrl = `http://localhost:3721/api/Usuario/passwd-recovery?Email=${encodeURIComponent(email)}`;
+    const apiUrl = `${this.APIURL.URL}/api/Usuario/passwd-recovery?Email=${encodeURIComponent(email)}`;
     return this.http.post<string>(apiUrl, {});
   }
 

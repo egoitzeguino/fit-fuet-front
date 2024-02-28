@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Usuario } from '../interfaces/usuario';
@@ -8,7 +8,7 @@ import { Usuario } from '../interfaces/usuario';
 })
 export class RegisterService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject('APP_CONFIG') private APIURL: any) {}
 
   register(dni: string, nombre: string, apellido: string, email: string, contrasenia: string): Observable<string> {
     let user: Usuario = {
@@ -19,7 +19,7 @@ export class RegisterService {
       passwd: contrasenia
     }
 
-    return this.http.post<string>('http://localhost:3721/api/Usuario/crear', user)
+    return this.http.post<string>(`${this.APIURL.URL}/api/Usuario/crear`, user)
   }
 
   /*logout(): void {
