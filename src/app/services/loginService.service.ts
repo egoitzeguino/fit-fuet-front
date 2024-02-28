@@ -13,14 +13,9 @@ export class LoginService {
     return this.http.get<any>(apiUrl);
   }
 
-  enviarContrasenia(email: string): Observable<any> {
+  enviarContrasenia(email: string): Observable<string> {
     const apiUrl = `http://localhost:3721/api/Usuario/passwd-recovery?Email=${encodeURIComponent(email)}`;
-    return this.http.post<any>(apiUrl, {}).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error('Error al enviar correo de recuperación de contraseña:', error);
-        return of(error);
-      })
-    );
+    return this.http.post<string>(apiUrl, {});
   }
 
   //TODO

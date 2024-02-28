@@ -76,25 +76,26 @@ export class LoginComponent implements OnInit {
     const email = this.loginForm.get('email')?.value;
     if (email) {
       this.loginService.enviarContrasenia(email).subscribe(
-        response => {
-          console.log('Correo de recuperación de contraseña enviado correctamente:', response);
-          Swal.fire({
-            icon: 'success',
-            title: 'Email enviado',
-            text: 'Correo enviado con éxito!',
-            confirmButtonText: 'Cerrar'
-          });
-        },
-        error => {
-          console.error('Error al enviar correo de recuperación de contraseña:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Email incorrecto',
-            text: 'Ha ocurrido un error al enviar correo',
-            confirmButtonText: 'Cerrar'
-          });
-        }
-      );
+        (response: any) => {
+            console.log(response);
+            console.log('Correo de recuperación de contraseña enviado correctamente:', response);
+            Swal.fire({
+              icon: 'success',
+              title: 'Email enviado',
+              text: 'Correo enviado con éxito!',
+              confirmButtonText: 'Cerrar'
+            });
+          },
+          (error) => {
+            console.log(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al enviar correo',
+              text: error.error,
+              confirmButtonText: 'Cerrar'
+            });
+          }
+        );
     }
   }
 
