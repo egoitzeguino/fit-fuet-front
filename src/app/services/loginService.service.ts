@@ -8,6 +8,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 export class LoginService {
   private isAuthenticatedSubject: BehaviorSubject<boolean>;
   public isAuthenticated$: Observable<boolean>;
+  public token: string = '';
 
   constructor(private http: HttpClient) {
     this.isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
@@ -18,8 +19,9 @@ export class LoginService {
 
     return this.http.get<any>(apiUrl).pipe(
       map((response) => {
-        const token = response.token;
-        localStorage.setItem('authToken', token);
+        this.token = response.token;
+        console.log('Token:', this.token);
+        localStorage.setItem('authToken', this.token);
         this.isAuthenticatedSubject.next(true);
         return true;
       }),
@@ -34,4 +36,14 @@ export class LoginService {
       })
     );
   }
+  enviarContrasenia(email: string): Observable<any> {
+    const apiUrl = `http://localhost:3721/api/Usuario/passwd-recovery?Email=${encodeURIComponent(email)}`;
+    return this.http.post<any>(apiUrl, {}).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error al enviar correo de recuperación de contraseña:', error);
+        return of(error);
+      })
+    );
+  }
+
 }
