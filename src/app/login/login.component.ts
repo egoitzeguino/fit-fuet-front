@@ -5,8 +5,6 @@ import { LoginService } from './../services/loginService.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
