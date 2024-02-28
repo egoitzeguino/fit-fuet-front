@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { RegisterService } from '../services/registerService.service';
 import Swal from 'sweetalert2';
+import { EncryptionService } from '../services/encriptarService.service';
 
 @Component({
   selector: 'app-registro',
@@ -20,6 +21,7 @@ export class RegistroComponent {
     private loginService: LoginService,
     private registerService: RegisterService,
     private router: Router,
+    private encryptionService: EncryptionService
   )
   {
     this.registerForm = this.fb.group({
@@ -61,8 +63,9 @@ export class RegistroComponent {
       const apellido = this.registerForm.get('apellido')!.value;
       const email = this.registerForm.get('email')!.value;
       const contrasenia = this.registerForm.get('contrasenia')!.value;
+      const encriptedPasswd = this.encryptionService.encryptPassword(contrasenia);
 
-      this.registerService.register(dni, nombre, apellido, email, contrasenia).subscribe(
+      this.registerService.register(dni, nombre, apellido, email, encriptedPasswd).subscribe(
         (response) => {
           const statusCode = +response;
           if (statusCode === 0) {

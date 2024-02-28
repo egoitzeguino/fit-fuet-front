@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { LoginService } from './../services/loginService.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { EncryptionService } from '../services/encriptarService.service';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private snackBar: MatSnackBar,
+    private encryptionService: EncryptionService
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -40,34 +43,35 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;
       const contrasenia = this.loginForm.get('contrasenia')?.value;
+      const encriptedPasswd = this.encryptionService.encryptPassword(contrasenia);
 
-      this.loginService.authenticateGet(email, contrasenia)
+      this.loginService.authenticateGet(email, encriptedPasswd)
         .subscribe(
-          (isAuthenticated: any) => {
-            if (isAuthenticated) {
-              this.router.navigate(['/about']);
-              Swal.fire({
-                icon: 'success',
-                title: 'Inicio de sesión exitoso',
-                text: '¡Bienvenido!',
-                confirmButtonText: 'Cerrar'
-              });
-            } else {
-              this.loginErrorMessage = 'Email o contraseña incorrectos';
-              Swal.fire({
-                icon: 'error',
-                title: 'Inicio de sesión incorrecto',
-                text: 'Email o contraseña incorrectos',
-                confirmButtonText: 'Cerrar'
-              });
-            }
+          (response: any) => {
+            console.log(response);
+            localStorage.setItem('authToken', response.token);
+            const helper = new JwtHelperService();
+            const decodedToken = helper.decodeToken(response.token);
+            console.log(decodedToken);
+            const usuario = decodedToken.nombreUsuario + ' ' + decodedToken.apellidoUsuario;
+            const idUsuario = decodedToken.idUsuario;
+            localStorage.setItem('usuario', usuario);
+            localStorage.setItem('idUsuario', idUsuario);
+            this.router.navigate(['/about']);
           },
           (error) => {
-            console.error('Error during authentication:', error);
+            console.log(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Inicio de sesión incorrecto',
+              text: 'Email o contraseña incorrectos',
+              confirmButtonText: 'Cerrar'
+            });
           }
         );
     }
   }
+
   olvidarContrasenia() {
     const email = this.loginForm.get('email')?.value;
     if (email) {
