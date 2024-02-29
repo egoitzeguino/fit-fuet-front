@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/loginService.service';
 import Swal from 'sweetalert2';
@@ -27,9 +27,23 @@ export class CambiarContraseniaComponent {
     this.cambiarForm = this.fb.group({
       email: ['', Validators.required],
       contraseniaActual: ['', Validators.required],
-      contraseniaNueva: ['', Validators.required],
+      contraseniaNueva: ['', [Validators.required, this.contraseniaValidator]],
       contraseniaConfirmacion: ['', Validators.required]
-    });
+    }, { validator: this.contraseniaIgual });
+  }
+
+  contraseniaValidator(control: AbstractControl) {
+    const contraseniaRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+    if (control.value && !contraseniaRegex.test(control.value)) {
+      return { invalidContrasenia: true };
+    }
+    return null;
+  }
+
+  contraseniaIgual(group: FormGroup): any {
+    const contrasenia = group.controls['contraseniaNueva'].value;
+    const contrasenia2 = group.controls['contraseniaConfirmacion'].value;
+    return contrasenia === contrasenia2 ? null : {notSame: true}
   }
 
   cambiarContrasenia() {
