@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { EncryptionService } from './encriptarService.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: HttpClient, @Inject('APP_CONFIG') private APIURL: any) { }
+  constructor(private http: HttpClient, @Inject('APP_CONFIG') private APIURL: any, private encryptionService: EncryptionService) { }
   login(email: string, contrasenia: string): Observable<boolean> {
     console.log(this.APIURL.URL);
     const apiUrl = `${this.APIURL.URL}/api/Usuario/login?email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(contrasenia)}`;
@@ -19,15 +20,10 @@ export class LoginService {
     return this.http.post<string>(apiUrl, {});
   }
 
-  //TODO
-  /*changePassword(email: string): Observable<any> {
-    const apiUrl = `http://localhost:3721/api/Usuario/passwd-recovery?Email=${encodeURIComponent(email)}`;
-    return this.http.post<any>(apiUrl, {}).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error('Error al enviar correo de recuperación de contraseña:', error);
-        return of(error);
-      })
-    );
-  }*/
+  changePassword(idUsuario: number, nuevaPassword: string, email: string, antiguaPassword: string): Observable<any> {
+    const apiUrl = `${this.APIURL.URL}/api/Usuario/change-password?idUsuario=${idUsuario}&nuevaPassword=${encodeURIComponent(this.encryptionService.encryptPassword(nuevaPassword))}
+                  &email=${encodeURIComponent(email)}&antiguaPassword=${encodeURIComponent(this.encryptionService.encryptPassword(antiguaPassword))}`;
+    return this.http.post<any>(apiUrl, {});
+  }
 
 }
