@@ -1,24 +1,24 @@
 <div [ngClass]="theme === 'dark' ? 'dark-theme' : 'light-theme'" class="login-container">
-  <h2> CAMBIAR CONTRASEÑA </h2>
-  <br>
-  <form (ngSubmit)="cambiarContrasenia()" [formGroup]="cambiarForm">
-    <div class="form-group">
-      <label for="username">E-mail:</label>
-      <input type="text" id="username" class="form-control" placeholder="Enter email" formControlName="email">
-    </div>
-    <div class="form-group">
-      <label for="password">Contraseña Actual:</label>
-      <input type="password" id="password" class="form-control" placeholder="Enter password" formControlName="contrasenia">
-    </div>
-    <div class="form-group">
-      <label for="password">Contraseña Nueva:</label>
-      <input type="password" id="passwordNueva" class="form-control" placeholder="Enter password" formControlName="contrasenia">
-    </div>
-    <div class="form-group">
-      <label for="password">Confirma la contraseña:</label>
-      <input type="password" id="passwordConfirmar" class="form-control" placeholder="Enter password" formControlName="contrasenia">
-    </div>
-    <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+    <h2> CAMBIAR CONTRASEÑA </h2>
     <br>
-  </form>
+    <form (ngSubmit)="cambiarContrasenia()" [formGroup]="cambiarForm">
+        <div class="form-group">
+            <label for="username">E-mail:</label>
+            <input type="text" id="username" class="form-control" placeholder="Enter email" formControlName="email">
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña Actual:</label>
+            <input type="password" id="password" class="form-control" placeholder="Enter password" formControlName="contraseniaActual">
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña Nueva:</label>
+            <input type="password" id="passwordNueva" class="form-control" placeholder="Enter password" formControlName="contraseniaNueva">
+        </div>
+        <div class="form-group">
+            <label for="password">Confirma la contraseña:</label>
+            <input type="password" id="passwordConfirmar" class="form-control" placeholder="Enter password" formControlName="contraseniaConfirmacion">
+        </div>
+        <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+        <br>
+    </form>
 </div>

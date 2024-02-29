@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FullComponent } from './layouts/full/full.component';
@@ -17,6 +17,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app-settings';
+import { TokenInterceptorService } from './services/tokenInterceptor.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,9 @@ import { AppConfig } from 'src/app-settings';
     {
       provide: 'APP_CONFIG',
       useValue: AppConfig
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true
     },
     MessageService
   ],

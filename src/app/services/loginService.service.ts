@@ -2,17 +2,29 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { EncryptionService } from './encriptarService.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: HttpClient, @Inject('APP_CONFIG') private APIURL: any, private encryptionService: EncryptionService) { }
+  constructor(
+    private http: HttpClient,
+    @Inject('APP_CONFIG') private APIURL: any,
+    private encryptionService: EncryptionService,
+    private router: Router
+  ) { }
   login(email: string, contrasenia: string): Observable<boolean> {
-    console.log(this.APIURL.URL);
     const apiUrl = `${this.APIURL.URL}/api/Usuario/login?email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(contrasenia)}`;
     return this.http.get<any>(apiUrl);
+  }
+
+  logout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('idUsuario');
+    localStorage.removeItem('usuario');
+    this.router.navigate(['/login']);
   }
 
   enviarContrasenia(email: string): Observable<string> {

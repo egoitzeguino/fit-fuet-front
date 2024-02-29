@@ -49,11 +49,9 @@ export class LoginComponent implements OnInit {
       this.loginService.login(email, encriptedPasswd)
         .subscribe(
           (response: any) => {
-            console.log(response);
             localStorage.setItem('authToken', response.token);
             const helper = new JwtHelperService();
             const decodedToken = helper.decodeToken(response.token);
-            console.log(decodedToken);
             const usuario = decodedToken.nombreUsuario + ' ' + decodedToken.apellidoUsuario;
             const idUsuario = decodedToken.idUsuario;
             localStorage.setItem('usuario', usuario);
@@ -63,7 +61,6 @@ export class LoginComponent implements OnInit {
             });
           },
           (error) => {
-            console.log(error);
             Swal.fire({
               icon: 'error',
               title: 'Inicio de sesión incorrecto',
@@ -80,8 +77,6 @@ export class LoginComponent implements OnInit {
     if (email) {
       this.loginService.enviarContrasenia(email).subscribe(
         (response: any) => {
-            console.log(response);
-            console.log('Correo de recuperación de contraseña enviado correctamente:', response);
             Swal.fire({
               icon: 'success',
               title: 'Email enviado',
@@ -90,7 +85,6 @@ export class LoginComponent implements OnInit {
             });
           },
           (error) => {
-            console.log(error);
             Swal.fire({
               icon: 'error',
               title: 'Error al enviar correo',
@@ -101,7 +95,6 @@ export class LoginComponent implements OnInit {
         );
     }
   }
-
 }
 
 

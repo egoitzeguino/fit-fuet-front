@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/loginService.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cambiar-contrasenia',
@@ -39,16 +40,21 @@ export class CambiarContraseniaComponent {
       const idUsuario = Number(localStorage.getItem('idUsuario'));
       this.loginService.changePassword(idUsuario,contraseniaNueva,email,contraseniaActual).subscribe(
         (response: any) => {
-          console.log('Respuesta del servidor:', response);
-
-          if (response === 'Correcto') {
-            this.router.navigate(['/about']);
-          } else {
-            console.error('Respuesta inesperada del servidor:', response);
-          }
+          this.router.navigate(['/about']);
+          Swal.fire({
+            icon: 'success',
+            title: 'Cambio de contraseña',
+            text: 'Cambio de contraseña exitoso',
+            confirmButtonText: 'Cerrar'
+          });
         },
         (error: any) => {
-          console.error('Error al cambiar la contraseña:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Cambio de contraseña',
+            text: 'Error al cambiar la contraseña',
+            confirmButtonText: 'Cerrar'
+          });
         }
       );
     }

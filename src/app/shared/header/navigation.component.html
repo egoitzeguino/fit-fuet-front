@@ -1,11 +1,11 @@
 <ul class="navbar-nav float-end">
-    <li class="nav-item" placement="bottom-end" *ngIf="inicioSesion === true && menu === false">
-        <a class="nav-link waves-effect waves-dark pro-pic" href="/login" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="login()">
+    <li class="nav-item" placement="bottom-end" *ngIf="token===null">
+        <a class="nav-link waves-effect waves-dark pro-pic" href="/login" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="assets/images/users/user1.jpg" alt="user" class="rounded-circle" width="31" />
             <span class="ms-2">Login</span>
         </a>
     </li>
-    <li class="nav-item" ngbDropdown placement="bottom-end" *ngIf="inicioSesion === true && menu === true">
+    <li class="nav-item" ngbDropdown placement="bottom-end" *ngIf="token!==null">
         <a ngbDropdownToggle class="nav-link waves-effect waves-dark pro-pic" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="assets/images/users/user1.jpg" alt="user" class="rounded-circle" width="31" />
             <span class="ms-2">{{nombreUsuario}}</span>
@@ -20,7 +20,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/objetivos"> Objetivos</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/dashboard" (click)="logout()">Logout</a>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
         </div>
     </li>
 </ul>
