@@ -24,7 +24,9 @@ export class LoginService {
     localStorage.removeItem('authToken');
     localStorage.removeItem('idUsuario');
     localStorage.removeItem('usuario');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 
   enviarContrasenia(email: string): Observable<string> {

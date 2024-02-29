@@ -16,6 +16,7 @@ import { SidebarComponent } from "src/app/shared/sidebar/sidebar.component";
   styleUrls: ["./full.component.scss"],
 })
 export class FullComponent implements OnInit {
+  public token: string | null = localStorage.getItem('authToken');
 
   constructor(public router: Router) {}
   public isCollapsed = false;
