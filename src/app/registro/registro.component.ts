@@ -15,6 +15,7 @@ import { EncryptionService } from '../services/encriptarService.service';
 export class RegistroComponent {
   theme: string = 'light';
   registerForm!: FormGroup;
+  imagen: any = '';
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +32,7 @@ export class RegistroComponent {
       email: ['', [Validators.required, Validators.maxLength(50), Validators.email]],
       contrasenia: ['', [Validators.required, this.contraseniaValidator]],
       contrasenia2: ['', Validators.required],
+      foto: ['','']
     }, { validator: this.contraseniaIgual });
   }
 
@@ -56,6 +58,20 @@ export class RegistroComponent {
     return contrasenia === contrasenia2 ? null : {notSame: true}
   }
 
+  onFileChanged(event: any) {
+    this.imagen = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      this.imagen = reader.result;
+      console.log(this.imagen);
+    };
+
+    if(this.imagen ){
+      reader.readAsDataURL(this.imagen );
+    }
+  }
+
   register() {
     if (this.registerForm.valid) {
       const dni = this.registerForm.get('dni')!.value;
@@ -64,8 +80,9 @@ export class RegistroComponent {
       const email = this.registerForm.get('email')!.value;
       const contrasenia = this.registerForm.get('contrasenia')!.value;
       const encriptedPasswd = this.encryptionService.encryptPassword(contrasenia);
+      console.log(this.imagen);
 
-      this.registerService.register(dni, nombre, apellido, email, encriptedPasswd).subscribe(
+      this.registerService.register(dni, nombre, apellido, email, encriptedPasswd, this.imagen).subscribe(
         (response) => {
           const statusCode = +response;
           if (statusCode === 0) {

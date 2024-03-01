@@ -49,6 +49,10 @@
                 </div>
             </div>
         </div>
+        <div>
+            <label for="imagen">Selecciona una imagen:</label><br>
+            <input class="btn btn-secondary" type="file" id="imagen" name="imagen" accept="image/*" formControlName="foto" (change)="onFileChanged($event)"><br><br>
+        </div>
         <button type="submit" class="btn btn-primary">Register</button>
     </form>
     <br>

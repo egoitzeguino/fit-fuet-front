@@ -52,10 +52,15 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('authToken', response.token);
             const helper = new JwtHelperService();
             const decodedToken = helper.decodeToken(response.token);
+            console.log(decodedToken);
             const usuario = decodedToken.nombreUsuario + ' ' + decodedToken.apellidoUsuario;
             const idUsuario = decodedToken.idUsuario;
+            const email = decodedToken.emailUsuario;
+            const dni = decodedToken.dniUsuario;
             localStorage.setItem('usuario', usuario);
             localStorage.setItem('idUsuario', idUsuario);
+            localStorage.setItem('email', email);
+            localStorage.setItem('dni', dni);
             this.router.navigate(['/about']).then(() => {
               window.location.reload();
             });

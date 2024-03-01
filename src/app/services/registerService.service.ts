@@ -10,19 +10,18 @@ export class RegisterService {
 
   constructor(private http: HttpClient, @Inject('APP_CONFIG') private APIURL: any) {}
 
-  register(dni: string, nombre: string, apellido: string, email: string, contrasenia: string): Observable<string> {
+  register(dni: string, nombre: string, apellido: string, email: string, contrasenia: string, image: any[]): Observable<string> {
     let user: Usuario = {
       dni: dni,
       nombre: nombre,
       apellido: apellido,
       email: email,
-      passwd: contrasenia
+      passwd: contrasenia,
+      foto: image,
     }
+    console.log(user);
 
     return this.http.post<string>(`${this.APIURL.URL}/api/Usuario/crear`, user)
   }
 
-  /*logout(): void {
-    this.isAuthenticatedSubject.next(false);
-  }*/
 }

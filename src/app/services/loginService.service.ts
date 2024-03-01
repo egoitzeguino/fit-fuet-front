@@ -24,6 +24,8 @@ export class LoginService {
     localStorage.removeItem('authToken');
     localStorage.removeItem('idUsuario');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('dni');
+    localStorage.removeItem('email');
     this.router.navigate(['/login']).then(() => {
       window.location.reload();
     });
@@ -43,6 +45,11 @@ export class LoginService {
   eliminarCuenta(email: string, passwd: string): Observable<any> {
     const apiUrl = `${this.APIURL.URL}/api/Usuario/eliminar-cuenta?email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(passwd)}`;
     return this.http.post<any>(apiUrl, {});
+  }
+
+  obtenerImagenUsuario(idUsuario: number): Observable<any> {
+    const apiUrl = `${this.APIURL.URL}/api/Usuario/foto?idUsuario=${idUsuario}`;
+    return this.http.get<any>(apiUrl);
   }
 
 }

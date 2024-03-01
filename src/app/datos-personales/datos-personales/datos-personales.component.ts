@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import Swal from 'sweetalert2';
 import { LoginService } from '../../services/loginService.service';
@@ -10,16 +10,26 @@ import { EncryptionService } from '../../services/encriptarService.service';
   templateUrl: './datos-personales.component.html',
   styleUrls: ['./datos-personales.component.css']
 })
-export class DatosPersonalesComponent {
+export class DatosPersonalesComponent implements OnInit{
 
   constructor(private router: Router, private loginService: LoginService, encryptionService: EncryptionService) { }
 
-  @Input() dni: string | undefined;
-  @Input() nombre: string | undefined;
-  @Input() apellidos: string | undefined;
-  @Input() correo: string | undefined;
-  @Input() peso: number | undefined;
-  @Input() altura: number | undefined;
+  @Input() dni: string | undefined = localStorage.getItem('dni') || '';
+  @Input() nombre: string | undefined = localStorage.getItem('usuario')?.split(' ')[0] || '';
+  @Input() apellidos: string | undefined = localStorage.getItem('usuario')?.split(' ')[1] || '';
+  @Input() correo: string | undefined = localStorage.getItem('email') || '';
+  imagenUsuario: string | undefined = '';
+
+  ngOnInit(): void {
+    this.loginService.obtenerImagenUsuario(parseInt(localStorage.getItem('idUsuario')!)).subscribe(
+      (response: any) => {
+        this.imagenUsuario = response.imagen;
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
 
   cambiarContrasenia(){
     this.router.navigate(['/cambiar-contrasenia']);
