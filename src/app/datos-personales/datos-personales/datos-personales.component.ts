@@ -46,21 +46,16 @@ export class DatosPersonalesComponent {
         console.log(email, passwordEncriptada);
         this.loginService.eliminarCuenta(email, passwordEncriptada).subscribe(
           (response: any) => {
-            console.log(response);
             Swal.fire({
               icon: 'success',
               title: 'Cuenta eliminada',
-              text: response.message,
+              text: 'Cuenta eliminada exitósamente',
               confirmButtonText: 'Cerrar'
+            }).then((repuesta) => {
+              if(repuesta.isConfirmed){
+                this.loginService.logout();
+              }
             });
-            //Swal.fire('Cuenta eliminada', response.message, 'success');
-            this.loginService.logout();
-            /*if (response.status === 200) {
-              Swal.fire('Cuenta eliminada', response.message, 'success');
-              this.router.navigate(['/login']);
-            } else {
-              Swal.fire('Error al eliminar la cuenta', response && response.message || 'No se ha podido eliminar la cuenta', 'error');
-            }*/
           },
           (error:any) => {
             Swal.fire({
@@ -69,7 +64,6 @@ export class DatosPersonalesComponent {
               text: error.error,
               confirmButtonText: 'Cerrar'
             });
-            console.log(error);
           }
         );
       }
