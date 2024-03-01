@@ -40,4 +40,9 @@ export class LoginService {
     return this.http.post<any>(apiUrl, {});
   }
 
+  eliminarCuenta(email: string, passwd: string): Observable<any> {
+    const apiUrl = `${this.APIURL.URL}/api/Usuario/eliminar-cuenta?email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(passwd)}`;
+    return this.http.post<any>(apiUrl, {});
+  }
+
 }
