@@ -26,6 +26,7 @@ export class LoginService {
     localStorage.removeItem('usuario');
     localStorage.removeItem('dni');
     localStorage.removeItem('email');
+    localStorage.removeItem('perfil');
     this.router.navigate(['/login']).then(() => {
       window.location.reload();
     });

@@ -6,7 +6,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { EncryptionService } from '../services/encriptarService.service';
-import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +23,7 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private encryptionService: EncryptionService
+    private encryptionService: EncryptionService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -57,10 +56,12 @@ export class LoginComponent implements OnInit {
             const idUsuario = decodedToken.idUsuario;
             const email = decodedToken.emailUsuario;
             const dni = decodedToken.dniUsuario;
+            const perfil = decodedToken.perfilUsuario;
             localStorage.setItem('usuario', usuario);
             localStorage.setItem('idUsuario', idUsuario);
             localStorage.setItem('email', email);
             localStorage.setItem('dni', dni);
+            localStorage.setItem('perfil', perfil);
             this.router.navigate(['/about']).then(() => {
               window.location.reload();
             });

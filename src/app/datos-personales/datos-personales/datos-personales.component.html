@@ -1,5 +1,5 @@
 <div class="cliente-card">
-    <div><img src="{{ imagenUsuario }}" alt=""></div>
+    <div *ngIf="imagenUsuario !== null"><img class="image" src="{{ imagenUsuario }}" alt=""></div>
     <div><strong>DNI:</strong> {{ dni }}</div>
     <div><strong>Nombre:</strong> {{ nombre }}</div>
     <div><strong>Apellidos:</strong> {{ apellidos }}</div>
