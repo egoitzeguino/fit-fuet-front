@@ -5,6 +5,8 @@ import { FullComponent } from './layouts/full/full.component';
 import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
 import { CambiarContraseniaComponent } from './cambiar-contrasenia/cambiar-contrasenia.component';
+import { AuthGuard } from './utils/authGuard';
+import { UnauthenticatedGuard } from './utils/unauthenticatedGuard';
 
 export const Approutes: Routes = [
   {
@@ -14,52 +16,63 @@ export const Approutes: Routes = [
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+        canActivate: [AuthGuard]
       },
       {
         path: 'about',
-        loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
+        loadChildren: () => import('./about/about.module').then(m => m.AboutModule),
+        canActivate: [AuthGuard]
       },
       {
         path: 'component',
-        loadChildren: () => import('./component/component.module').then(m => m.ComponentsModule)
+        loadChildren: () => import('./component/component.module').then(m => m.ComponentsModule),
+        canActivate: [AuthGuard]
       },
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [UnauthenticatedGuard]
       },
       {
         path: 'registro',
-        component: RegistroComponent
+        component: RegistroComponent,
+        canActivate: [UnauthenticatedGuard]
       },
       {
         path: 'cambiar-contrasenia',
-        component: CambiarContraseniaComponent
+        component: CambiarContraseniaComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'datos-personales',
-        loadChildren: () => import('./datos-personales/datos-personales.module').then(m => m.DatosPersonalesModule)
+        loadChildren: () => import('./datos-personales/datos-personales.module').then(m => m.DatosPersonalesModule),
+        canActivate: [AuthGuard]
       },
       {
         path: 'dieta',
-        loadChildren: () => import('./dieta/dieta.module').then(m => m.DietaModule)
+        loadChildren: () => import('./dieta/dieta.module').then(m => m.DietaModule),
+        canActivate: [AuthGuard]
       },
       {
         path: 'actividad-fisica',
-        loadChildren: () => import('./actividad-fisica/actividad-fisica.module').then(m => m.ActividadFisicaModule)
+        loadChildren: () => import('./actividad-fisica/actividad-fisica.module').then(m => m.ActividadFisicaModule),
+        canActivate: [AuthGuard]
       },
       {
         path: 'suenio',
-        loadChildren: () => import('./suenio/suenio.module').then(m => m.SuenioModule)
+        loadChildren: () => import('./suenio/suenio.module').then(m => m.SuenioModule),
+        canActivate: [AuthGuard]
       },
       {
         path: 'objetivos',
-        loadChildren: () => import('./objetivos/objetivos.module').then(m => m.ObjetivosModule)
+        loadChildren: () => import('./objetivos/objetivos.module').then(m => m.ObjetivosModule),
+        canActivate: [AuthGuard]
       },
     ]
   },
   {
     path: '**',
-    redirectTo: '/starter'
+    redirectTo: '/dashboard'
   }
 ];
