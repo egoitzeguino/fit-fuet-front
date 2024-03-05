@@ -26,7 +26,6 @@ export class LoginService {
     localStorage.removeItem('usuario');
     localStorage.removeItem('dni');
     localStorage.removeItem('email');
-    localStorage.removeItem('perfil');
     this.router.navigate(['/login']).then(() => {
       window.location.reload();
     });
@@ -52,11 +51,4 @@ export class LoginService {
     const apiUrl = `${this.APIURL.URL}/api/Usuario/foto?idUsuario=${idUsuario}`;
     return this.http.get<any>(apiUrl);
   }
-  actualizarDatosUsuario(usuarioActualizado: any): Observable<any> {
-    const url = `${this.APIURL.URL}/api/Usuario/actualizar-datos`;
-    console.log(usuarioActualizado);
-    return this.http.put(url, usuarioActualizado);
-  }
-
-
 }

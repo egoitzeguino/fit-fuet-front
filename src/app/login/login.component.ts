@@ -56,12 +56,10 @@ export class LoginComponent implements OnInit {
             const idUsuario = decodedToken.idUsuario;
             const email = decodedToken.emailUsuario;
             const dni = decodedToken.dniUsuario;
-            const perfil = decodedToken.perfilUsuario;
             localStorage.setItem('usuario', usuario);
             localStorage.setItem('idUsuario', idUsuario);
             localStorage.setItem('email', email);
             localStorage.setItem('dni', dni);
-            localStorage.setItem('perfil', perfil);
             this.router.navigate(['/about']).then(() => {
               window.location.reload();
             });

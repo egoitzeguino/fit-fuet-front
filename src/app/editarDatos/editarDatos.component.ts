@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/loginService.service';
 import { EncryptionService } from '../services/encriptarService.service';
 import Swal from 'sweetalert2';
+import { UsuarioService } from '../services/usuarioService.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-editar-datos',
@@ -16,7 +18,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editarDatos.component.css'],
 })
 export class EditarDatosComponent {
-  constructor(private router: Router, private loginService: LoginService, encryptionService: EncryptionService) { }
+  constructor(
+    private usuarioService: UsuarioService,
+    private router: Router, private loginService: LoginService, encryptionService: EncryptionService) { }
 
   @Input() dni: string | undefined = localStorage.getItem('dni') || '';
   @Input() nombre: string | undefined = localStorage.getItem('usuario')?.split(' ')[0] || '';
@@ -65,8 +69,21 @@ export class EditarDatosComponent {
           email: this.email,
           foto: this.imagenUsuario
         };
-        this.loginService.actualizarDatosUsuario(usuarioActualizado).subscribe(
+        this.usuarioService.actualizarDatosUsuario(usuarioActualizado).subscribe(
           (response: any) => {
+            console.log(response);
+            localStorage.setItem('authToken', response.token);
+            const helper = new JwtHelperService();
+            const decodedToken = helper.decodeToken(response.token);
+            console.log(decodedToken);
+            const usuario = decodedToken.nombreUsuario + ' ' + decodedToken.apellidoUsuario;
+            const idUsuario = decodedToken.idUsuario;
+            const email = decodedToken.emailUsuario;
+            const dni = decodedToken.dniUsuario;
+            localStorage.setItem('usuario', usuario);
+            localStorage.setItem('idUsuario', idUsuario);
+            localStorage.setItem('email', email);
+            localStorage.setItem('dni', dni);
             Swal.fire({
               icon: 'success',
               title: 'Cambios guardados',
