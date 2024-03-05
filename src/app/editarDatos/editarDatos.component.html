@@ -1,0 +1,9 @@
+<div class="cliente-card">
+  <div *ngIf="imagenUsuario !== null"><img class="image" src="{{ imagenUsuario }}" alt=""></div>
+  <div><strong>DNI:</strong> <input [(ngModel)]="dni" /></div>
+  <div><strong>Nombre:</strong> <input [(ngModel)]="nombre" /></div>
+  <div><strong>Apellidos:</strong> <input [(ngModel)]="apellido" /></div>
+  <div><strong>Correo Electrónico:</strong> <input [(ngModel)]="email" /></div>
+  <input type="file" (change)="onFileChanged($event)" />
+  <button (click)="guardarCambios()">Guardar Cambios</button>
+</div>

@@ -8,6 +8,7 @@ import { CambiarContraseniaComponent } from './cambiar-contrasenia/cambiar-contr
 import { AuthGuard } from './utils/authGuard';
 import { UnauthenticatedGuard } from './utils/unauthenticatedGuard';
 import { GimnasioComponent } from './gimnasio/gimnasio.component';
+import { EditarDatosComponent } from './editarDatos/editarDatos.component';
 
 export const Approutes: Routes = [
   {
@@ -43,6 +44,11 @@ export const Approutes: Routes = [
       {
         path: 'cambiar-contrasenia',
         component: CambiarContraseniaComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'editar-datos',
+        component: EditarDatosComponent,
         canActivate: [AuthGuard]
       },
       {

@@ -20,6 +20,7 @@ import { AppConfig } from 'src/app-settings';
 import { TokenInterceptorService } from './services/tokenInterceptor.service';
 import { GimnasioComponent } from './gimnasio/gimnasio.component';
 import { AgGridModule } from 'ag-grid-angular';
+import { EditarDatosComponent } from './editarDatos/editarDatos.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { AgGridModule } from 'ag-grid-angular';
     SpinnerComponent,
     LoginComponent,
     RegistroComponent,
-    GimnasioComponent
+    GimnasioComponent,
   ],
   imports: [
     CommonModule,

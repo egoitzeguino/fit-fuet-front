@@ -79,4 +79,7 @@ export class DatosPersonalesComponent implements OnInit{
       }
     });
   }
+  editarDatos(){
+    this.router.navigate(['/editar-datos']);
+  }
 }

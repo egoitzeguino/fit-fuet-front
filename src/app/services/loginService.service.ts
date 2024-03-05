@@ -52,5 +52,11 @@ export class LoginService {
     const apiUrl = `${this.APIURL.URL}/api/Usuario/foto?idUsuario=${idUsuario}`;
     return this.http.get<any>(apiUrl);
   }
+  actualizarDatosUsuario(usuarioActualizado: any): Observable<any> {
+    const url = `${this.APIURL.URL}/api/Usuario/actualizar-datos`;
+    console.log(usuarioActualizado);
+    return this.http.put(url, usuarioActualizado);
+  }
+
 
 }
