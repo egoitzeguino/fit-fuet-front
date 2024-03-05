@@ -7,6 +7,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { CambiarContraseniaComponent } from './cambiar-contrasenia/cambiar-contrasenia.component';
 import { AuthGuard } from './utils/authGuard';
 import { UnauthenticatedGuard } from './utils/unauthenticatedGuard';
+import { GimnasioComponent } from './gimnasio/gimnasio.component';
 
 export const Approutes: Routes = [
   {
@@ -67,6 +68,11 @@ export const Approutes: Routes = [
       {
         path: 'objetivos',
         loadChildren: () => import('./objetivos/objetivos.module').then(m => m.ObjetivosModule),
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'lista-ejercicios',
+        component: GimnasioComponent,
         canActivate: [AuthGuard]
       },
     ]

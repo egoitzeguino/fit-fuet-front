@@ -18,13 +18,16 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { AppConfig } from 'src/app-settings';
 import { TokenInterceptorService } from './services/tokenInterceptor.service';
+import { GimnasioComponent } from './gimnasio/gimnasio.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
     AppComponent,
     SpinnerComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    GimnasioComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +42,8 @@ import { TokenInterceptorService } from './services/tokenInterceptor.service';
     RouterModule.forRoot(Approutes, { useHash: false }),
     FullComponent,
     MatSnackBarModule,
-    ToastModule
+    ToastModule,
+    AgGridModule
   ],
   providers: [
     {

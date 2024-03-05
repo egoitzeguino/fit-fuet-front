@@ -25,6 +25,8 @@
     "@auth0/angular-jwt": "^5.2.0",
     "@ng-bootstrap/ng-bootstrap": "14.1.1",
     "@popperjs/core": "^2.11.7",
+    "ag-grid-angular": "^31.1.1",
+    "ag-grid-community": "^31.1.1",
     "apexcharts": "^3.40.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",

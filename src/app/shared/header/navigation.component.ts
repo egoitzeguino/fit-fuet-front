@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, EventEmitter, Output, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/loginService.service';
 
@@ -15,7 +16,8 @@ export class NavigationComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -28,6 +30,26 @@ export class NavigationComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
+  }
+
+  datosPersonales(){
+    this.router.navigate(['/datos-personales']);
+  }
+
+  dieta(){
+    this.router.navigate(['/dieta']);
+  }
+
+  actividadFisica(){
+    this.router.navigate(['/actividad-fisica']);
+  }
+
+  suenio(){
+    this.router.navigate(['/suenio']);
+  }
+
+  objetivos(){
+    this.router.navigate(['/objetivos']);
   }
 
 }

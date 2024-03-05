@@ -13,13 +13,13 @@
         </a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/datos-personales"> Datos personales</a>
+            <a class="dropdown-item" (click)="datosPersonales()"> Datos personales</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/dieta"> Dieta</a>
-            <a class="dropdown-item" href="/actividad-fisica"> Actividad física</a>
-            <a class="dropdown-item" href="/suenio"> Sueño</a>
+            <a class="dropdown-item" (click)="dieta()"> Dieta</a>
+            <a class="dropdown-item" (click)="actividadFisica()"> Actividad física</a>
+            <a class="dropdown-item" (click)="suenio()"> Sueño</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/objetivos"> Objetivos</a>
+            <a class="dropdown-item" (click)="objetivos()"> Objetivos</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" (click)="logout()">Logout</a>
         </div>
