@@ -60,9 +60,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('idUsuario', idUsuario);
             localStorage.setItem('email', email);
             localStorage.setItem('dni', dni);
-            this.router.navigate(['/about']).then(() => {
-              window.location.reload();
-            });
+            window.location.href = '/about';
           },
           (error) => {
             Swal.fire({

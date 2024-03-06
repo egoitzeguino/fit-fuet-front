@@ -61,7 +61,6 @@ export class GimnasioComponent implements OnInit
   getEjercicios(){
     this.ejerciciosService.getEjercicios().subscribe(
       (response: any) =>{
-        console.log(response);
         this.rowData = response;
       }, (error: any) =>{
         Swal.fire('Error', 'No se pudieron obtener los ejercicios', 'error');

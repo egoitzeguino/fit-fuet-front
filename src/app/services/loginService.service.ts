@@ -26,9 +26,7 @@ export class LoginService {
     localStorage.removeItem('usuario');
     localStorage.removeItem('dni');
     localStorage.removeItem('email');
-    this.router.navigate(['/login']).then(() => {
-      window.location.reload();
-    });
+    window.location.href = '/login';
   }
 
   enviarContrasenia(email: string): Observable<string> {

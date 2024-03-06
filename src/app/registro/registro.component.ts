@@ -19,7 +19,6 @@ export class RegistroComponent {
 
   constructor(
     private fb: FormBuilder,
-    private loginService: LoginService,
     private registerService: RegisterService,
     private router: Router,
     private encryptionService: EncryptionService
@@ -81,49 +80,57 @@ export class RegistroComponent {
       const contrasenia = this.registerForm.get('contrasenia')!.value;
       const encriptedPasswd = this.encryptionService.encryptPassword(contrasenia);
       console.log(this.imagen);
-
-      this.registerService.register(dni, nombre, apellido, email, encriptedPasswd, this.imagen).subscribe(
-        (response) => {
-          const statusCode = +response;
-          if (statusCode === 0) {
-            // Registro exitoso
-            Swal.fire({
-              icon: 'success',
-              title: 'Usuario creado',
-              text: '¡Usuario creado con éxito!',
-              confirmButtonText: 'Cerrar'
-            });
-            this.router.navigate(['/login']);
-          } else {
-            // Otro tipo de error no esperado
-            Swal.fire({
-              icon: 'error',
-              title: 'Registro incorrecto',
-              text: 'Ha ocurrido un error al crear el usuario',
-              confirmButtonText: 'Cerrar'
-            });
+      if(this.imagen.startsWith('data:image')){
+        this.registerService.register(dni, nombre, apellido, email, encriptedPasswd, this.imagen).subscribe(
+          (response) => {
+            const statusCode = +response;
+            if (statusCode === 0) {
+              // Registro exitoso
+              Swal.fire({
+                icon: 'success',
+                title: 'Usuario creado',
+                text: '¡Usuario creado con éxito!',
+                confirmButtonText: 'Cerrar'
+              });
+              this.router.navigate(['/login']);
+            } else {
+              // Otro tipo de error no esperado
+              Swal.fire({
+                icon: 'error',
+                title: 'Registro incorrecto',
+                text: 'Ha ocurrido un error al crear el usuario',
+                confirmButtonText: 'Cerrar'
+              });
+            }
+          },
+          (error) => {
+            if (error.status === 400) {
+              // Error de usuario existente
+              Swal.fire({
+                icon: 'error',
+                title: 'Registro incorrecto',
+                text: 'El usuario ya existe',
+                confirmButtonText: 'Cerrar'
+              });
+            } else {
+              // Otro tipo de error no esperado
+              Swal.fire({
+                icon: 'error',
+                title: 'Registro incorrecto',
+                text: 'Ha ocurrido un error al crear el usuario',
+                confirmButtonText: 'Cerrar'
+              });
+            }
           }
-        },
-        (error) => {
-          if (error.status === 400) {
-            // Error de usuario existente
-            Swal.fire({
-              icon: 'error',
-              title: 'Registro incorrecto',
-              text: 'El usuario ya existe',
-              confirmButtonText: 'Cerrar'
-            });
-          } else {
-            // Otro tipo de error no esperado
-            Swal.fire({
-              icon: 'error',
-              title: 'Registro incorrecto',
-              text: 'Ha ocurrido un error al crear el usuario',
-              confirmButtonText: 'Cerrar'
-            });
-          }
-        }
-      );
+        );
+      } else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Registro incorrecto',
+          text: 'El documento seleccionado no es una imagen',
+          confirmButtonText: 'Cerrar'
+        });
+      }
     }
   }
 }

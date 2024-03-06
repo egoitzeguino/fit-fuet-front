@@ -1,9 +1,39 @@
 <div class="cliente-card">
-  <div *ngIf="imagenUsuario !== null"><img class="image" src="{{ imagenUsuario }}" alt=""></div>
-  <div><strong>DNI:</strong> <input [(ngModel)]="dni" /></div>
-  <div><strong>Nombre:</strong> <input [(ngModel)]="nombre" /></div>
-  <div><strong>Apellidos:</strong> <input [(ngModel)]="apellido" /></div>
-  <div><strong>Correo Electrónico:</strong> <input [(ngModel)]="email" /></div>
-  <input type="file" (change)="onFileChanged($event)" />
-  <button (click)="guardarCambios()">Guardar Cambios</button>
+    <div *ngIf="imagenUsuario !== null"><img class="image" src="{{ imagenUsuario }}" alt=""></div>
+
+    <form [formGroup]="editForm" (ngSubmit)="guardarCambios()">
+        <div class="row">
+            <div class="form-group">
+                <label for="dni">DNI</label>
+                <input [(ngModel)]="dni" type="text" id="dni" class="form-control" placeholder="Introduce tu DNI" formControlName="dni">
+                <div class="error-message" *ngIf="editForm.get('dni')?.touched && editForm.get('dni')?.hasError('required')">El DNI es obligatorio (12345678A)</div>
+                <div class="error-message" *ngIf="editForm.get('dni')?.touched && editForm.get('dni')?.hasError('invalidDni')">El formato del DNI es inválido</div>
+            </div>
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input [(ngModel)]="nombre" type="text" id="name" class="form-control" placeholder="Introduce tu nombre" formControlName="nombre">
+                <div class="error-message" *ngIf="editForm.get('nombre')?.touched && editForm.get('nombre')?.hasError('required')">El nombre es obligatorio</div>
+                <div class="error-message" *ngIf="editForm.get('nombre')?.touched && editForm.get('nombre')?.hasError('maxLength')">Máximo 20 caractéres</div>
+            </div>
+            <div class="form-group">
+                <label for="surname">Apellidos</label>
+                <input [(ngModel)]="apellido" type="text" id="surname" class="form-control" placeholder="Introduce tus apellidos" formControlName="apellido">
+                <div class="error-message" *ngIf="editForm.get('apellido')?.touched && editForm.get('apellido')?.hasError('required')">El apellido es obligatorio</div>
+                <div class="error-message" *ngIf="editForm.get('apellido')?.touched && editForm.get('apellido')?.hasError('maxLength')">Máximo 20 caractéres</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input [(ngModel)]="email" type="email" id="email" class="form-control" placeholder="Introduce tu email" formControlName="email">
+                <div class="error-message" *ngIf="editForm.get('email')?.touched && editForm.get('email')?.hasError('required')">El correo electrónico es obligatorio</div>
+                <div class="error-message" *ngIf="editForm.get('email')?.touched && editForm.get('email')?.hasError('maxLength')">Máximo 50 caractéres</div>
+                <div class="error-message" *ngIf="editForm.get('email')?.touched && editForm.get('email')?.hasError('email')">El formato del correo electrónico no es válido</div>
+            </div>
+        </div>
+        <div>
+            <label for="imagen">Selecciona una imagen:</label><br>
+            <input class="btn btn-secondary" type="file" id="imagen" name="imagen" accept="image/*" formControlName="foto" (change)="onFileChanged($event)"><br><br>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar datos</button>
+    </form>
+
 </div>

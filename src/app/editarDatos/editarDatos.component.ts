@@ -1,32 +1,44 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/loginService.service';
 import { EncryptionService } from '../services/encriptarService.service';
 import Swal from 'sweetalert2';
 import { UsuarioService } from '../services/usuarioService.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-editar-datos',
   standalone: true,
-  imports: [
-    CommonModule,FormsModule
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './editarDatos.component.html',
   styleUrls: ['./editarDatos.component.css'],
 })
 export class EditarDatosComponent {
-  constructor(
-    private usuarioService: UsuarioService,
-    private router: Router, private loginService: LoginService, encryptionService: EncryptionService) { }
 
   @Input() dni: string | undefined = localStorage.getItem('dni') || '';
   @Input() nombre: string | undefined = localStorage.getItem('usuario')?.split(' ')[0] || '';
   @Input() apellido: string | undefined = localStorage.getItem('usuario')?.split(' ')[1] || '';
   @Input() email: string | undefined = localStorage.getItem('email') || '';
   imagenUsuario: any = '';
+
+  public editForm: FormGroup;
+
+  constructor(
+    private usuarioService: UsuarioService,
+    private loginService: LoginService,
+    private fb: FormBuilder,
+  ) {
+    this.editForm = this.fb.group({
+      dni: ['', [Validators.required, this.dniValidator]],
+      nombre: ['', [Validators.required, Validators.maxLength(20)]],
+      apellido: ['', [Validators.required, Validators.maxLength(20)]],
+      email: ['', [Validators.required, Validators.maxLength(50), Validators.email]],
+      foto: ['','']
+    });
+   }
 
   ngOnInit(): void {
     this.loginService.obtenerImagenUsuario(parseInt(localStorage.getItem('idUsuario')!)).subscribe(
@@ -38,6 +50,7 @@ export class EditarDatosComponent {
       }
     )
   }
+
   onFileChanged(event: any) {
     this.imagenUsuario = event.target.files[0];
     const reader = new FileReader();
@@ -50,6 +63,14 @@ export class EditarDatosComponent {
     if(this.imagenUsuario ){
       reader.readAsDataURL(this.imagenUsuario );
     }
+  }
+
+  dniValidator(control: AbstractControl) {
+    const dniRegex = /^[0-9]{8}[a-zA-Z]$/;
+    if (control.value && !dniRegex.test(control.value)) {
+      return { invalidDni: true };
+    }
+    return null;
   }
 
   guardarCambios() {
@@ -89,10 +110,10 @@ export class EditarDatosComponent {
               title: 'Cambios guardados',
               text: 'Los cambios se han guardado exitosamente',
               confirmButtonText: 'Cerrar',
-            });
-            this.router.navigate(['/about']).then(() => {
-              window.location.reload();
-            });
+          }).then(() => {
+              window.location.href = '/about';
+          });
+
           },
           (error) => {
             console.error('Error al actualizar datos:', error);
