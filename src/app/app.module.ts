@@ -20,7 +20,9 @@ import { AppConfig } from 'src/app-settings';
 import { TokenInterceptorService } from './services/tokenInterceptor.service';
 import { GimnasioComponent } from './gimnasio/gimnasio.component';
 import { AgGridModule } from 'ag-grid-angular';
+import { ActividadFisicaComponent } from './actividad-fisica/actividad-fisica/actividad-fisica.component';
 import { EditarDatosComponent } from './editarDatos/editarDatos.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,9 @@ import { EditarDatosComponent } from './editarDatos/editarDatos.component';
     LoginComponent,
     RegistroComponent,
     GimnasioComponent,
+    ActividadFisicaComponent,
+    EditarDatosComponent,
+    ActividadFisicaComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +49,8 @@ import { EditarDatosComponent } from './editarDatos/editarDatos.component';
     FullComponent,
     MatSnackBarModule,
     ToastModule,
-    AgGridModule
+    AgGridModule,
+    MatAutocompleteModule,
   ],
   providers: [
     {
@@ -58,7 +64,7 @@ import { EditarDatosComponent } from './editarDatos/editarDatos.component';
     {
       provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true
     },
-    MessageService
+    MessageService,
   ],
   bootstrap: [AppComponent]
 })

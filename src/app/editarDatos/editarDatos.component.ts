@@ -11,8 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-editar-datos',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './editarDatos.component.html',
   styleUrls: ['./editarDatos.component.css'],
 })
