@@ -35,6 +35,10 @@ export class DatosPersonalesComponent implements OnInit{
   @ViewChild("chart") chart: ChartComponent = Object.create(null);
   public salesChartOptions: Partial<salesChartOptions>;
   public loader = true;
+  public peso: number[] = [];
+  public altura: number[] = [];
+  public imc: number[] = [];
+  public fecha: Date[] = [];
 
   constructor(private router: Router, private loginService: LoginService, encryptionService: EncryptionService) {
     this.salesChartOptions = this.cargarGrafico();
@@ -142,7 +146,7 @@ export class DatosPersonalesComponent implements OnInit{
       dataLabels: {
         enabled: true
       },
-      colors: ["#0d6efd", "#009efb", "#6771dc"],
+      colors: ["#0d6efd", "#28a745", "#6771dc"],
       stroke: {
         show: true,
         width: 4,
