@@ -1,29 +1,63 @@
 <form [formGroup]="rutinaForm" action="">
-    <div class="card" style="padding: 20px;" *ngFor="let ejercicio of getRange()">
-        <div class="form-group formularioRutina">
+
+    <div class="card" style="padding: 20px; width: 90%;">
+        <div class=" form-group formularioRutina ">
             <div>
-                <input type="text" formControlName="ejercicio" [matAutocomplete]="auto" placeholder="Ejercicio">
+                <input type="text " style="width: 250px; " formControlName="ejercicio" [matAutocomplete]="auto " placeholder="Ejercicio ">
                 <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let opcion of filteredOptions | async" [value]="opcion">
+                    <mat-option *ngFor="let opcion of filteredOptions | async " [value]="opcion ">
                         {{ opcion }}
                     </mat-option>
                 </mat-autocomplete>
             </div>
             <div>
-                <input type="number" placeholder="Series">
+                <input type="number" placeholder="Series" formControlName="series">
             </div>
             <div>
-                <input type="number" placeholder="Repeticiones">
+                <input type="number" placeholder="Repeticiones" formControlName="repeticiones">
             </div>
             <div>
-                <input type="number" placeholder="Peso (kg)">
+                <input type="number" placeholder="Peso (kg)" formControlName="peso">
             </div>
             <div>
                 <input [(ngModel)]="date" type="text" placeholder="(AA-MM-DD)" formControlName="fecha">
             </div>
+            <div>
+                <button disabled class="btn btn-danger">-</button>
+            </div>
         </div>
     </div>
 
-    <div class="card" style="padding: 20px;"><button (click)="agregarRutina()" class="btn btn-primary">Agregar</button></div>
+    <div class="card " style="padding: 20px; width: 90%; " *ngFor="let ejercicio of ejerciciosList; index as i ">
+        <div class="form-group formularioRutina ">
+            <div>
+                <input type="text " style="width: 250px; " formControlName="ejercicio" [matAutocomplete]="auto " placeholder="Ejercicio ">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let opcion of filteredOptions | async " [value]="opcion ">
+                        {{ opcion }}
+                    </mat-option>
+                </mat-autocomplete>
+            </div>
+            <div>
+                <input type="number" placeholder="Series" formControlName="series">
+            </div>
+            <div>
+                <input type="number" placeholder="Repeticiones " formControlName="repeticiones">
+            </div>
+            <div>
+                <input type=" number" placeholder="Peso (kg)" formControlName="peso">
+            </div>
+            <div>
+                <input [(ngModel)]="date" type="text" placeholder="(AA-MM-DD)" formControlName="fecha">
+            </div>
+            <div>
+                <button (click)="eliminarEjercicio(i) " class="btn btn-danger">-</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="padding: 20px; width: 90%;"><button (click)="agregarRutina()" class="btn btn-primary">Agregar</button></div>
+
+    <div><button>Guardar</button></div>
 
 </form>
