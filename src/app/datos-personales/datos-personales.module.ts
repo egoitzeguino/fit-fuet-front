@@ -16,11 +16,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    DatosPersonalesComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+
   ],
 })
 export class DatosPersonalesModule { }

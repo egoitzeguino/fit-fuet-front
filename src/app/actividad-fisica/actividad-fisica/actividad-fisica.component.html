@@ -1,63 +1,53 @@
 <form [formGroup]="rutinaForm" action="">
+    <div class="container-fluid" style="display: flex;">
+        <div class="row justify-content-between" style="width: 95%; margin-right: 1%;">
+            <div class="column-container" *ngFor="let ejercicio of ejerciciosList; let i = index">
+                <div class="form-group formularioRutina" style="margin-right: 15px; margin-left: 15px;">
+                    <!-- Ajusta el margen izquierdo y derecho aquí -->
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <input type="text" class="form-control input-style" formControlName="ejercicio" [matAutocomplete]="auto" placeholder="Ejercicio">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let opcion of filteredOptions | async" [value]="opcion">
+                                {{ opcion }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
 
-    <div class="card" style="padding: 20px; width: 90%;">
-        <div class=" form-group formularioRutina ">
-            <div>
-                <input type="text " style="width: 250px; " formControlName="ejercicio" [matAutocomplete]="auto " placeholder="Ejercicio ">
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let opcion of filteredOptions | async " [value]="opcion ">
-                        {{ opcion }}
-                    </mat-option>
-                </mat-autocomplete>
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <input type="number" class="form-control input-style" placeholder="Series" formControlName="series">
+                    </div>
+
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <input type="number" class="form-control input-style" placeholder="Repeticiones" formControlName="repeticiones">
+                    </div>
+
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <input type="number" class="form-control input-style" placeholder="Peso (kg)" formControlName="peso">
+                    </div>
+
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <input [(ngModel)]="date" type="text" class="form-control input-style" placeholder="(AA-MM-DD)" formControlName="fecha">
+                    </div>
+
+                    <div>
+                        <button (click)="eliminarEjercicio(i)" class="btn btn-danger" *ngIf="ejerciciosList.length > 1">-</button>
+                    </div>
+                </div>
             </div>
-            <div>
-                <input type="number" placeholder="Series" formControlName="series">
+        </div>
+        <div style="width: 15%;">
+            <!-- Botones -->
+            <div class="mb-3">
+                <button (click)="agregarRutina()" class="btn btn-success" style="width: 100%;">
+          <span class="bi bi-plus"></span> Agregar
+        </button>
             </div>
+
             <div>
-                <input type="number" placeholder="Repeticiones" formControlName="repeticiones">
-            </div>
-            <div>
-                <input type="number" placeholder="Peso (kg)" formControlName="peso">
-            </div>
-            <div>
-                <input [(ngModel)]="date" type="text" placeholder="(AA-MM-DD)" formControlName="fecha">
-            </div>
-            <div>
-                <button disabled class="btn btn-danger">-</button>
+                <button (click)="guardar()" class="btn btn-primary" style="width: 100%;">
+          <span class="bi bi-save"></span> Guardar
+        </button>
             </div>
         </div>
     </div>
-
-    <div class="card " style="padding: 20px; width: 90%; " *ngFor="let ejercicio of ejerciciosList; index as i ">
-        <div class="form-group formularioRutina ">
-            <div>
-                <input type="text " style="width: 250px; " formControlName="ejercicio" [matAutocomplete]="auto " placeholder="Ejercicio ">
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let opcion of filteredOptions | async " [value]="opcion ">
-                        {{ opcion }}
-                    </mat-option>
-                </mat-autocomplete>
-            </div>
-            <div>
-                <input type="number" placeholder="Series" formControlName="series">
-            </div>
-            <div>
-                <input type="number" placeholder="Repeticiones " formControlName="repeticiones">
-            </div>
-            <div>
-                <input type=" number" placeholder="Peso (kg)" formControlName="peso">
-            </div>
-            <div>
-                <input [(ngModel)]="date" type="text" placeholder="(AA-MM-DD)" formControlName="fecha">
-            </div>
-            <div>
-                <button (click)="eliminarEjercicio(i) " class="btn btn-danger">-</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="card" style="padding: 20px; width: 90%;"><button (click)="agregarRutina()" class="btn btn-primary">Agregar</button></div>
-
-    <div><button>Guardar</button></div>
-
 </form>

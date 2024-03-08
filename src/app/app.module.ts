@@ -23,6 +23,12 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ActividadFisicaComponent } from './actividad-fisica/actividad-fisica/actividad-fisica.component';
 import { EditarDatosComponent } from './editarDatos/editarDatos.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTabsModule } from '@angular/material/tabs';
+import { DatosPersonalesComponent } from './datos-personales/datos-personales/datos-personales.component';
+import { DatosPersonalesModule } from './datos-personales/datos-personales.module';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     GimnasioComponent,
     ActividadFisicaComponent,
     EditarDatosComponent,
-    ActividadFisicaComponent
+    ActividadFisicaComponent,
+    DatosPersonalesComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +58,12 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ToastModule,
     AgGridModule,
     MatAutocompleteModule,
+    MatTabsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
+    NgApexchartsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     {

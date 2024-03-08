@@ -2,7 +2,15 @@
     display: block;
 }
 
+.input-style {
+    width: 100%;
+    background-color: white;
+    /* Establece el color de fondo como blanco */
+}
+
 .formularioRutina {
     display: flex;
     justify-content: space-around;
 }
+
+@import '~bootstrap/dist/css/bootstrap.css';

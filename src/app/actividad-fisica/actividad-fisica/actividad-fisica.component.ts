@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, map, startWith } from 'rxjs';
 import { Rutina } from 'src/app/interfaces/rutina';
 import { EjerciciosService } from 'src/app/services/ejerciciosService.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-actividad-fisica',
@@ -19,8 +21,12 @@ export class ActividadFisicaComponent implements OnInit{
   public ejerciciosList: Rutina[] = [];
   public idYNombreEjercicios: any;
   public dicEjercicios: { [clave: string]: number } = {};
+  public ejercicioSeleccionadoValido: boolean = true;
 
-  constructor(private fb: FormBuilder, private ejerciciosService: EjerciciosService) {
+  constructor(private fb: FormBuilder,
+      private ejerciciosService: EjerciciosService,
+      private router: Router,
+      ) {
     this.obtenerNombreEjercicios();
     this.ejerciciosNumber = 1;
     this.rutinaForm = this.fb.group({
@@ -30,6 +36,14 @@ export class ActividadFisicaComponent implements OnInit{
       peso: ['', ''],
       fecha: ['', ''],
     })
+    this.ejerciciosList.push({
+    IdUsuario: 0, // Asigna el valor adecuado según tus requisitos
+    IdEjercicio: 0, // Asigna el valor adecuado según tus requisitos
+    Series: 0,
+    Repeticiones: 0,
+    Peso: 0,
+    Fecha: new Date() // Utiliza new Date() para crear una instancia de Date
+  });
   }
 
   ngOnInit(): void {
@@ -42,19 +56,61 @@ export class ActividadFisicaComponent implements OnInit{
 
       this.rutinaForm.valueChanges.subscribe((valor: any) => {
         //console.log(valor);
-        console.log(this.ejerciciosList);
+        //console.log(this.ejerciciosList);
       });
   }
-
+checkEjercicioValido(ejercicio: string): void {
+    this.ejercicioSeleccionadoValido = this.ejercicios.includes(ejercicio);
+  }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.ejercicios.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   agregarRutina() {
-    this.ejerciciosList.push(this.rutinaForm.value);
-    console.log(this.ejerciciosList);
+    const nuevaRutina = { ...this.rutinaForm.value };
+      this.checkEjercicioValido(nuevaRutina.ejercicio);
+      if (!this.ejercicioSeleccionadoValido) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ejercicio no encontrado',
+          confirmButtonText: 'Cerrar',
+        });
+      }else{
+        console.log(this.ejerciciosList);
+        this.ejerciciosList.push(nuevaRutina);
+      }
   }
+
+  guardar() {
+    const nuevaRutina = { ...this.rutinaForm.value };
+      this.checkEjercicioValido(nuevaRutina.ejercicio);
+      if (!this.ejercicioSeleccionadoValido) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ejercicio no encontrado',
+          confirmButtonText: 'Cerrar',
+        });
+      }else{
+        console.log(this.ejerciciosList);
+        this.ejerciciosList.push(nuevaRutina);
+        this.eliminarEjercicio(0);
+        console.log(this.ejerciciosList);
+        Swal.fire({
+          icon: 'success',
+          title: 'Rutina creada',
+          text: 'Rutina creada con éxito!',
+          confirmButtonText: 'Cerrar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+      }
+  }
+
 
   displayFn(ejercicio: string): string {
     return ejercicio && ejercicio ? ejercicio : '';
@@ -79,5 +135,4 @@ export class ActividadFisicaComponent implements OnInit{
     this.idYNombreEjercicios[ejercicio];
     return idEjercicio;
   }
-
 }
