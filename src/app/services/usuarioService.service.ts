@@ -7,14 +7,17 @@ import { Observable } from 'rxjs';
 })
 export class UsuarioService {
 
-  constructor(    
+  constructor(
     private http: HttpClient,
     @Inject('APP_CONFIG') private APIURL: any,
   ) { }
 
   actualizarDatosUsuario(usuarioActualizado: any): Observable<string> {
     const url = `${this.APIURL.URL}/api/Usuario/actualizar-datos`;
-    console.log(usuarioActualizado);
     return this.http.put<string>(url, usuarioActualizado);
+  }
+
+  obtenerUltimos7Registros(idUsuario: number): Observable<any> {
+    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-ultimos-datos?idUsuario=${idUsuario}`);
   }
 }

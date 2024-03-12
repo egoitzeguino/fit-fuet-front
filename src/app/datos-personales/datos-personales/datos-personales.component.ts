@@ -7,9 +7,10 @@ import { EncryptionService } from '../../services/encriptarService.service';
 import {MatTabsModule} from '@angular/material/tabs';
 import * as echarts from 'echarts';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexLegend, ApexPlotOptions, ApexTheme, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
-import { interval, timeInterval } from 'rxjs';
+import { interval, timeInterval, map, Observable, delay } from 'rxjs';
+import { UsuarioService } from 'src/app/services/usuarioService.service';
 
-export type salesChartOptions = {
+export type datosCorporalesGrafico = {
   series: ApexAxisChartSeries | any;
   chart: ApexChart | any;
   xaxis: ApexXAxis | any;
@@ -33,15 +34,16 @@ export type salesChartOptions = {
 export class DatosPersonalesComponent implements OnInit{
 
   @ViewChild("chart") chart: ChartComponent = Object.create(null);
-  public salesChartOptions: Partial<salesChartOptions>;
+  public datosUsuario!: Partial<datosCorporalesGrafico>;
   public loader = true;
   public peso: number[] = [];
   public altura: number[] = [];
   public imc: number[] = [];
   public fecha: Date[] = [];
+  public mostrarDatosCorporales = false;
 
-  constructor(private router: Router, private loginService: LoginService, encryptionService: EncryptionService) {
-    this.salesChartOptions = this.cargarGrafico();
+  constructor(private router: Router, private loginService: LoginService, private usuarioService: UsuarioService) {
+    this.cargarGrafico();
   }
 
   @Input() dni: string | undefined;
@@ -51,7 +53,8 @@ export class DatosPersonalesComponent implements OnInit{
   imagenUsuario: string | undefined = '';
 
   ngOnInit(): void {
-    interval(1000).subscribe(() => {
+    setTimeout(() => {
+      this.mostrarDatosCorporales = !this.mostrarDatosCorporales;
       this.dni = localStorage.getItem('dni')!;
       this.nombre = localStorage.getItem('usuario')?.split(' ')[0]!;
       this.apellidos = localStorage.getItem('usuario')?.split(' ')[1]!;
@@ -65,7 +68,7 @@ export class DatosPersonalesComponent implements OnInit{
         }
       );
       this.loader = false;
-    });
+    }, 1000);
   }
 
   cambiarContrasenia(){
@@ -87,10 +90,8 @@ export class DatosPersonalesComponent implements OnInit{
         return { email, passwordEncriptada };
       }
     }).then((result) => {
-      console.log(result);
       if (result.isConfirmed) {
         const { email, passwordEncriptada } = result.value;
-        console.log(email, passwordEncriptada);
         this.loginService.eliminarCuenta(email, passwordEncriptada).subscribe(
           (response: any) => {
             Swal.fire({
@@ -116,61 +117,73 @@ export class DatosPersonalesComponent implements OnInit{
       }
     });
   }
+
   editarDatos(){
     this.router.navigate(['/editar-datos']);
   }
 
+  obtenerUltimos7Registros(): Observable<any> {
+    return new Observable((observer) => {
+      this.usuarioService.obtenerUltimos7Registros(parseInt(localStorage.getItem('idUsuario')!)).subscribe(
+        (response: any) => {
+          this.altura = response.datosUsuario.map((element: any) => parseFloat(element.item1).toFixed(2));
+          this.peso = response.datosUsuario.map((element: any) => parseFloat(element.item2).toFixed(2));
+          this.fecha = response.datosUsuario.map((element: any) => element.item3.substring(0, 10));
+          this.imc = response.datosUsuario.map((element: any) => parseFloat(element.item4).toFixed(2));
 
-  //Datos personales
-
-  cargarGrafico(){
-    return {
-      series: [
-        {
-          name: "Peso",
-          data: [31, 40, 28, 51, 42, 109, 100]
+          observer.next(); // Notificar que la obtención de registros ha completado
+          observer.complete(); // Completar el observable
         },
-        {
-          name: "IMC",
-          data: [11, 32, 45, 32, 34, 52, 41]
+        (error) => {
+          observer.error(error); // Manejar errores
         }
-      ],
-      chart: {
-        fontFamily: 'Montserrat,sans-serif',
-        height: 290,
-        type: 'area',
-        toolbar: {
-          show: false
-        },
-      },
-      dataLabels: {
-        enabled: true
-      },
-      colors: ["#0d6efd", "#28a745", "#6771dc"],
-      stroke: {
-        show: true,
-        width: 4,
-        colors: ["transparent"],
-      },
-      grid: {
-        strokeDashArray: 3,
-      },
-      xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "Aug",
-        ],
-      },
-      tooltip: {
-        theme: 'dark'
-      }
-    };
+      );
+    });
   }
+
+
+  //Datos personales esquema
+
+  async cargarGrafico(){
+    await this.obtenerUltimos7Registros().toPromise();
+      this.datosUsuario = {
+        series: [
+          {
+            name: "Peso",
+            data: this.peso
+          },
+          {
+            name: "IMC",
+            data: this.imc
+          }
+        ],
+        chart: {
+          fontFamily: 'Montserrat,sans-serif',
+          height: 290,
+          type: 'area',
+          toolbar: {
+            show: false
+          },
+        },
+        dataLabels: {
+          enabled: true
+        },
+        colors: ["#0d6efd", "#28a745", "#6771dc"],
+        stroke: {
+          show: true,
+          width: 4,
+          colors: ["transparent"],
+        },
+        grid: {
+          strokeDashArray: 3,
+        },
+        xaxis: {
+          categories: this.fecha,
+        },
+        tooltip: {
+          theme: 'dark'
+        }
+      };
+    }
 
 }
