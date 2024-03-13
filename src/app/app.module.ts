@@ -29,6 +29,8 @@ import { DatosPersonalesModule } from './datos-personales/datos-personales.modul
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { HistoricoDatosCorporalesComponent } from './historico-datos-corporales/historico-datos-corporales.component';
+import { CrudDatoCorporalComponent } from './crud-dato-corporal/crud-dato-corporal.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ActividadFisicaComponent,
     EditarDatosComponent,
     ActividadFisicaComponent,
-    DatosPersonalesComponent
+    DatosPersonalesComponent,
+    HistoricoDatosCorporalesComponent,
+    CrudDatoCorporalComponent
   ],
   imports: [
     CommonModule,

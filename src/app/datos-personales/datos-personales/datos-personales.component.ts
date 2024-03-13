@@ -185,5 +185,12 @@ export class DatosPersonalesComponent implements OnInit{
         }
       };
     }
+  
+    irHistorico() {
+      this.router.navigateByUrl("historico-datos-corporales");
+    }
 
+    Crud() {
+      this.router.navigateByUrl("dato-corporal");
+      }
 }

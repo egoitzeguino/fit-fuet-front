@@ -9,6 +9,8 @@ import { AuthGuard } from './utils/authGuard';
 import { UnauthenticatedGuard } from './utils/unauthenticatedGuard';
 import { GimnasioComponent } from './gimnasio/gimnasio.component';
 import { EditarDatosComponent } from './editarDatos/editarDatos.component';
+import { HistoricoDatosCorporalesComponent } from './historico-datos-corporales/historico-datos-corporales.component';
+import { CrudDatoCorporalComponent } from './crud-dato-corporal/crud-dato-corporal.component';
 
 export const Approutes: Routes = [
   {
@@ -79,6 +81,16 @@ export const Approutes: Routes = [
       {
         path: 'lista-ejercicios',
         component: GimnasioComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'historico-datos-corporales',
+        component: HistoricoDatosCorporalesComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'dato-corporal',
+        component: CrudDatoCorporalComponent,
         canActivate: [AuthGuard]
       },
     ]

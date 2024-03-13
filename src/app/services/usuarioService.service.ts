@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DatosUsuario } from '../interfaces/datosUsuario';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,13 @@ export class UsuarioService {
 
   obtenerUltimos7Registros(idUsuario: number): Observable<any> {
     return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-ultimos-datos?idUsuario=${idUsuario}`);
+  }
+
+  obtenerHistorico(idUsuario: number): Observable<any> {
+    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-todos-los-datos?idUsuario=${idUsuario}`);
+  }
+
+  agregarDatoCorporal(datosUsuario:DatosUsuario): Observable<any>{
+    return this.http.post<any>(`${this.APIURL.URL}/api/Usuario/agregar-dato`,datosUsuario);
   }
 }
