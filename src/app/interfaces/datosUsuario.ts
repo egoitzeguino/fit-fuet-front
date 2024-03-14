@@ -5,4 +5,3 @@ export interface DatosUsuario {
     fechaRegistro: string;
     activo: number;
 }
-  

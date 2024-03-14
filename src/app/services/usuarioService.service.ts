@@ -29,4 +29,12 @@ export class UsuarioService {
   agregarDatoCorporal(datosUsuario:DatosUsuario): Observable<any>{
     return this.http.post<any>(`${this.APIURL.URL}/api/Usuario/agregar-dato`,datosUsuario);
   }
+
+  editarDatoCorporal(idDatoCorporal: number, datoCorporal: DatosUsuario): Observable<any>{
+    return this.http.put<any>(`${this.APIURL.URL}/api/Usuario/editar-dato?idDatoCorporal=${idDatoCorporal}`,datoCorporal);
+  }
+
+  eliminarDatoCorporal(idDatoCorporal: number): Observable<any>{
+    return this.http.put<any>(`${this.APIURL.URL}/api/Usuario/eliminar-dato-corporal?idDatoCorporal=${idDatoCorporal}`,"");
+  }
 }

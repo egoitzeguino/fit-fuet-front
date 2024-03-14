@@ -135,7 +135,7 @@ export class DatosPersonalesComponent implements OnInit{
           observer.complete(); // Completar el observable
         },
         (error) => {
-          observer.error(error); // Manejar errores
+          observer.error(error);
         }
       );
     });
@@ -185,12 +185,12 @@ export class DatosPersonalesComponent implements OnInit{
         }
       };
     }
-  
+
     irHistorico() {
       this.router.navigateByUrl("historico-datos-corporales");
     }
 
     Crud() {
       this.router.navigateByUrl("dato-corporal");
-      }
+    }
 }
