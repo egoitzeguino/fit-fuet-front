@@ -17,6 +17,8 @@ export class CrudDatoCorporalComponent implements OnInit {
   datoCorporal: any;
   altura!: number;
   peso!: number;
+  date: string = new Date().toISOString().slice(0, 10);
+  ultimaAltura!: number;
 
   constructor(
     private fb: FormBuilder,
@@ -32,6 +34,7 @@ export class CrudDatoCorporalComponent implements OnInit {
   }
   ngOnInit(): void {
     this.comprobarSiEsEditar();
+    this.obtenerUltimaAltura();
   }
 
   comprobarSiEsEditar(){
@@ -44,6 +47,7 @@ export class CrudDatoCorporalComponent implements OnInit {
     }
   }
 
+  //TODO: Que no se puedan insertar datos negativos
   crud() {
     if(this.agregar){
       if (this.datosCorporalForm.valid) {
@@ -134,6 +138,13 @@ export class CrudDatoCorporalComponent implements OnInit {
         text: '¡Registro eliminado con éxito!',
         confirmButtonText: 'Cerrar'
       })
+    })
+  }
+
+  obtenerUltimaAltura(){
+    this.usuarioService.obtenerUltimaAltura(parseInt(localStorage.getItem('idUsuario')!)).subscribe((data: any) => {
+      if(data !== -1)
+        this.ultimaAltura = data;
     })
   }
 }

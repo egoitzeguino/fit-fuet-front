@@ -5,7 +5,7 @@
         <div class="col-md-6" style="width: 100%; padding: 3%;">
             <div class="form-group" style="align-items: center;">
                 <label for="Altura">ALTURA</label>
-                <input *ngIf="agregar" type="number" id="altura" class="form-control" placeholder="Introduce tu altura en cm" formControlName="altura">
+                <input *ngIf="agregar" type="number" id="altura" class="form-control" placeholder="Introduce tu altura en cm" formControlName="altura" [(ngModel)]="ultimaAltura">
                 <input *ngIf="!agregar" type="number" id="altura" class="form-control" placeholder="Introduce tu altura en cm" formControlName="altura" [(ngModel)]="altura">
             </div>
             <br>
@@ -18,7 +18,7 @@
             <br>
             <div class="form-group">
                 <label for="Fecha">FECHA</label>
-                <input *ngIf="agregar" type="date" id="fecha" class="form-control" placeholder="Introduce la fecha del registro" formControlName="fecha">
+                <input *ngIf="agregar" type="date" id="fecha" class="form-control" placeholder="Introduce la fecha del registro" formControlName="fecha" [(ngModel)]="date">
                 <input *ngIf="!agregar" type="date" id="fecha" class="form-control" placeholder="Introduce la fecha del registro" formControlName="fecha" [(ngModel)]="datoCorporal.item4">
             </div>
         </div>

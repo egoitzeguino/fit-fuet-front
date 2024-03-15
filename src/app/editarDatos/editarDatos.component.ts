@@ -72,58 +72,67 @@ export class EditarDatosComponent {
   }
 
   guardarCambios() {
-    Swal.fire({
-      icon: 'question',
-      title: 'Confirmación',
-      text: '¿Estás seguro de que quieres guardar los cambios?',
-      showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const usuarioActualizado = {
-          dni: this.dni,
-          nombre: this.nombre,
-          apellido: this.apellido,
-          email: this.email,
-          foto: this.imagenUsuario
-        };
-        this.usuarioService.actualizarDatosUsuario(usuarioActualizado).subscribe(
-          (response: any) => {
-            console.log(response);
-            localStorage.setItem('authToken', response.token);
-            const helper = new JwtHelperService();
-            const decodedToken = helper.decodeToken(response.token);
-            console.log(decodedToken);
-            const usuario = decodedToken.nombreUsuario + ' ' + decodedToken.apellidoUsuario;
-            const idUsuario = decodedToken.idUsuario;
-            const email = decodedToken.emailUsuario;
-            const dni = decodedToken.dniUsuario;
-            localStorage.setItem('usuario', usuario);
-            localStorage.setItem('idUsuario', idUsuario);
-            localStorage.setItem('email', email);
-            localStorage.setItem('dni', dni);
-            Swal.fire({
-              icon: 'success',
-              title: 'Cambios guardados',
-              text: 'Los cambios se han guardado exitosamente',
-              confirmButtonText: 'Cerrar',
-          }).then(() => {
-              window.location.href = '/about';
-          });
-
-          },
-          (error) => {
-            console.error('Error al actualizar datos:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Hubo un error al intentar guardar los cambios. Por favor, inténtalo de nuevo.',
-              confirmButtonText: 'Cerrar',
+    if(this.editForm.valid){
+      Swal.fire({
+        icon: 'question',
+        title: 'Confirmación',
+        text: '¿Estás seguro de que quieres guardar los cambios?',
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const usuarioActualizado = {
+            dni: this.dni,
+            nombre: this.nombre,
+            apellido: this.apellido,
+            email: this.email,
+            foto: this.imagenUsuario
+          };
+          this.usuarioService.actualizarDatosUsuario(usuarioActualizado).subscribe(
+            (response: any) => {
+              console.log(response);
+              localStorage.setItem('authToken', response.token);
+              const helper = new JwtHelperService();
+              const decodedToken = helper.decodeToken(response.token);
+              console.log(decodedToken);
+              const usuario = decodedToken.nombreUsuario + ' ' + decodedToken.apellidoUsuario;
+              const idUsuario = decodedToken.idUsuario;
+              const email = decodedToken.emailUsuario;
+              const dni = decodedToken.dniUsuario;
+              localStorage.setItem('usuario', usuario);
+              localStorage.setItem('idUsuario', idUsuario);
+              localStorage.setItem('email', email);
+              localStorage.setItem('dni', dni);
+              Swal.fire({
+                icon: 'success',
+                title: 'Cambios guardados',
+                text: 'Los cambios se han guardado exitosamente',
+                confirmButtonText: 'Cerrar',
+            }).then(() => {
+                window.location.href = '/about';
             });
-          }
-        );
-      }
-    });
+
+            },
+            (error) => {
+              console.error('Error al actualizar datos:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un error al intentar guardar los cambios. Por favor, inténtalo de nuevo.',
+                confirmButtonText: 'Cerrar',
+              });
+            }
+          );
+        }
+      });
+    } else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Debe rellenar todos los campos',
+        confirmButtonText: 'Cerrar',
+      });
+    }
   }
 }

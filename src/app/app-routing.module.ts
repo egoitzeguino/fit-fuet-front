@@ -11,6 +11,7 @@ import { GimnasioComponent } from './gimnasio/gimnasio.component';
 import { EditarDatosComponent } from './editarDatos/editarDatos.component';
 import { HistoricoDatosCorporalesComponent } from './historico-datos-corporales/historico-datos-corporales.component';
 import { CrudDatoCorporalComponent } from './crud-dato-corporal/crud-dato-corporal.component';
+import { DescripcionEjercicioComponent } from './descripcion-ejercicio/descripcion-ejercicio.component';
 
 export const Approutes: Routes = [
   {
@@ -93,10 +94,15 @@ export const Approutes: Routes = [
         component: CrudDatoCorporalComponent,
         canActivate: [AuthGuard]
       },
+      {
+        path: 'descripcion-ejercicio/:id',
+        component: DescripcionEjercicioComponent,
+        canActivate: [AuthGuard]
+      },
     ]
   },
   {
     path: '**',
-    redirectTo: '/dashboard'
+    redirectTo: '/about'
   }
 ];

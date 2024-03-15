@@ -1,14 +1,23 @@
+.tab-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 50px;
+}
+
 .cliente-card {
     border: 2px solid #ccc;
     border-radius: 12px;
     padding: 24px;
-    width: 470px;
+    width: 800px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .cliente-card div {
     margin-bottom: 12px;
     font-size: 16px;
+    text-align: left;
 }
 
 .cliente-card button {
@@ -26,23 +35,22 @@
     background-color: #0056b3;
 }
 
-.app-container {
-    text-align: center;
-    font-size: 18px;
-}
-
 .image {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 12px;
-}
-
-.error-message {
-    color: red;
-}
-
-.container {
     display: flex;
     justify-content: center;
+    height: 300px;
+}
+
+img {
+    height: 100%;
+}
+
+.title {
+    font-size: 80px;
+}
+
+@media (max-width: 800px) {
+    .wider-card {
+        width: 500px;
+    }
 }

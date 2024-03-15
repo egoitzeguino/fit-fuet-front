@@ -37,4 +37,8 @@ export class UsuarioService {
   eliminarDatoCorporal(idDatoCorporal: number): Observable<any>{
     return this.http.put<any>(`${this.APIURL.URL}/api/Usuario/eliminar-dato-corporal?idDatoCorporal=${idDatoCorporal}`,"");
   }
+
+  obtenerUltimaAltura(idUsuario: number): Observable<any> {
+    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-ultima-altura?idUsuario=${idUsuario}`);
+  }
 }

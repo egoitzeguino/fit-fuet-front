@@ -16,4 +16,8 @@ export class EjerciciosService {
   getNombreEjercicios(): Observable<any> {
     return this.http.get<any>(`${this.APIURL.URL}/api/Ejercicio/obtener-nombre-ejercicios`);
   }
+
+  getDescripcionEjercicio(idEjercicio: number): Observable<any> {
+    return this.http.get<any>(`${this.APIURL.URL}/api/Ejercicio/obtener-descripcion-ejercicios?idEjercicio=${idEjercicio}`);
+  }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 import Swal from 'sweetalert2';
 import { EjerciciosService } from '../services/ejerciciosService.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gimnasio',
@@ -15,8 +16,9 @@ export class GimnasioComponent implements OnInit
   public paginationPageSizeSelector: any;
   public defaultColDef: any;
   public rowData: any[] = [];
+  public loader = true;
 
-  constructor(public ejerciciosService: EjerciciosService) { }
+  constructor(public ejerciciosService: EjerciciosService, private router: Router) { }
 
   ngOnInit(): void {
     this.paginar();
@@ -62,10 +64,17 @@ export class GimnasioComponent implements OnInit
     this.ejerciciosService.getEjercicios().subscribe(
       (response: any) =>{
         this.rowData = response;
+        this.loader = false;
       }, (error: any) =>{
         Swal.fire('Error', 'No se pudieron obtener los ejercicios', 'error');
       }
     )
+  }
+
+  onCellClicked(data: any) {
+    if(data.column.colId === "info"){
+      this.router.navigate([`/descripcion-ejercicio/${data.data.id}`]);
+    }
   }
 
 }

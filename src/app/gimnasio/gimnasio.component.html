@@ -1,3 +1,4 @@
+<mat-spinner class="spinner" *ngIf="loader"></mat-spinner>
 <ag-grid-angular [pagination]="pagination" [paginationPageSize]="paginationPageSize" [paginationPageSizeSelector]="paginationPageSizeSelector" [defaultColDef]="defaultColDef" class="ag-theme-quartz" style="margin-left: 10%; margin-top: 5%; width: 80%; height: 400px;"
-    [rowData]="rowData" [columnDefs]="colDefs">
+    [rowData]="rowData" [columnDefs]="colDefs" (cellClicked)="onCellClicked($event)">
 </ag-grid-angular>
