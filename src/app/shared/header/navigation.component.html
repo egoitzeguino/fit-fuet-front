@@ -1,14 +1,14 @@
 <ul class="navbar-nav float-end">
     <li class="nav-item" placement="bottom-end" *ngIf="token===null">
         <a class="nav-link waves-effect waves-dark pro-pic" href="/login" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="assets/images/users/user1.jpg" alt="user" class="rounded-circle" width="45" height="45" />
+            <img src="assets/images/users/usuario1.png" alt="user" class="rounded-circle" width="70" height="45" />
             <span class="ms-2">Login</span>
         </a>
     </li>
     <li class="nav-item" ngbDropdown placement="bottom-end" *ngIf="token!==null">
         <a ngbDropdownToggle class="nav-link waves-effect waves-dark pro-pic" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img *ngIf="perfilUsuario" src="{{perfilUsuario}}" alt="user" class="rounded-circle" width="45" height="45" />
-            <img *ngIf="!perfilUsuario" src="assets/images/users/user1.jpg" alt="user" class="rounded-circle" width="45" height="45" />
+            <img *ngIf="!perfilUsuario" src="assets/images/users/usuario1.png" alt="user" class="rounded-circle" width="70" height="45" />
             <span class="ms-2">{{nombreUsuario}}</span>
         </a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
