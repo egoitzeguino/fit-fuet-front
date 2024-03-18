@@ -1,53 +1,114 @@
-<form [formGroup]="rutinaForm" action="">
-    <div class="container-fluid" style="display: flex;">
-        <div class="row justify-content-between" style="width: 95%; margin-right: 1%;">
-            <div class="column-container" *ngFor="let ejercicio of ejerciciosList; let i = index">
-                <div class="form-group formularioRutina" style="margin-right: 15px; margin-left: 15px;">
-                    <!-- Ajusta el margen izquierdo y derecho aquí -->
-                    <div class="mb-3" style="margin-right: 1%;">
-                        <input type="text" class="form-control input-style" formControlName="ejercicio" [matAutocomplete]="auto" placeholder="Ejercicio">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let opcion of filteredOptions | async" [value]="opcion">
-                                {{ opcion }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </div>
+<mat-tab-group class="tab-group">
+    <mat-tab label="Fuerza">
+            <form [formGroup]="rutinaFormF" action="">
+            <div class="container-fluid" style="display: flex; margin-top: 10px;">
+                <div class="row justify-content-between" style="width: 95%; margin-right: 1%;">
+                    <div class="column-container" *ngFor="let ejercicio of ejerciciosListF; let i = index">
+                        <div class="form-group formularioRutina" style="margin-right: 15px; margin-left: 15px;">
+                            <div class="mb-3" style="margin-right: 1%;">
+                                <input type="text" class="form-control input-style" formControlName="ejercicio" [matAutocomplete]="auto" placeholder="Ejercicio">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let opcion of filteredOptionsF | async" [value]="opcion">
+                                        {{ opcion }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <div class="error-message" *ngIf="rutinaFormF.get('ejercicio')?.touched && rutinaFormF.get('ejercicio')?.hasError('required')">El ejercicio es requerido</div>
+                            </div>
 
-                    <div class="mb-3" style="margin-right: 1%;">
-                        <input type="number" class="form-control input-style" placeholder="Series" formControlName="series">
-                    </div>
+                            <div class="mb-3" style="margin-right: 1%;">
+                                <input type="number" class="form-control input-style" placeholder="Series" formControlName="series">
+                                <div class="error-message" *ngIf="rutinaFormF.get('series')?.touched && rutinaFormF.get('series')?.hasError('negativo')">Las series no pueden ser negativas</div>
+                                <div class="error-message" *ngIf="rutinaFormF.get('series')?.touched && rutinaFormF.get('series')?.hasError('required')">Las series son requeridas</div>
+                            </div>
 
-                    <div class="mb-3" style="margin-right: 1%;">
-                        <input type="number" class="form-control input-style" placeholder="Repeticiones" formControlName="repeticiones">
-                    </div>
+                            <div class="mb-3" style="margin-right: 1%;">
+                                <input type="number" class="form-control input-style" placeholder="Repeticiones" formControlName="repeticiones">
+                                <div class="error-message" *ngIf="rutinaFormF.get('repeticiones')?.touched && rutinaFormF.get('repeticiones')?.hasError('negativo')">Las repeticiones no pueden ser negativas</div>
+                                <div class="error-message" *ngIf="rutinaFormF.get('repeticiones')?.touched && rutinaFormF.get('repeticiones')?.hasError('required')">Las repeticiones son requeridas</div>
+                            </div>
 
-                    <div class="mb-3" style="margin-right: 1%;">
-                        <input type="number" class="form-control input-style" placeholder="Peso (kg)" formControlName="peso">
-                    </div>
+                            <div class="mb-3" style="margin-right: 1%;">
+                                <input type="number" class="form-control input-style" placeholder="Peso (kg)" formControlName="peso">
+                                <div class="error-message" *ngIf="rutinaFormF.get('peso')?.touched && rutinaFormF.get('peso')?.hasError('negativo')">El peso no puede ser negativo</div>
+                                <div class="error-message" *ngIf="rutinaFormF.get('peso')?.touched && rutinaFormF.get('peso')?.hasError('required')">El peso es requerido</div>
+                            </div>
 
-                    <div class="mb-3" style="margin-right: 1%;">
-                        <input [(ngModel)]="date" type="date" class="form-control input-style" placeholder="(AA-MM-DD)" formControlName="fecha">
+                            <div class="mb-3" style="margin-right: 1%;">
+                                <input [(ngModel)]="date" type="date" class="form-control input-style" placeholder="(AA-MM-DD)" formControlName="fecha">
+                                <div class="error-message" *ngIf="rutinaFormF.get('fecha')?.touched && rutinaFormF.get('fecha')?.hasError('required')">La fecha es requerida</div>
+                            </div>
+
+                            <div>
+                                <button (click)="eliminarEjercicioF(i)" class="btn btn-danger" *ngIf="ejerciciosListF.length > 1">-</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 15%;">
+                    <!-- Botones -->
+                    <div class="mb-3">
+                        <button (click)="agregarRutinaF()" class="btn btn-success" style="width: 100%;">
+                <span class="bi bi-plus"></span> Agregar
+                </button>
                     </div>
 
                     <div>
-                        <button (click)="eliminarEjercicio(i)" class="btn btn-danger" *ngIf="ejerciciosList.length > 1">-</button>
+                        <button (click)="guardar()" class="btn btn-primary" style="width: 100%;">
+                <span class="bi bi-save"></span> Guardar
+                </button>
                     </div>
                 </div>
             </div>
-        </div>
-        <div style="width: 15%;">
-            <!-- Botones -->
-            <div class="mb-3">
-                <button (click)="agregarRutina()" class="btn btn-success" style="width: 100%;">
-          <span class="bi bi-plus"></span> Agregar
-        </button>
-            </div>
+        </form>
+            </mat-tab>
+            <mat-tab label="Cardio">
+                <form [formGroup]="rutinaFormC" action="">
+                <div class="container-fluid" style="display: flex; margin-top: 10px;">
+                    <div class="row justify-content-between" style="width: 95%; margin-right: 1%;">
+                        <div class="column-container" *ngFor="let ejercicio of ejerciciosListC; let i = index">
+                            <div class="form-group formularioRutina" style="margin-right: 15px; margin-left: 15px;">
+                                <div class="mb-3" style="margin-right: 1%;">
+                                    <input type="text" class="form-control input-style" formControlName="ejercicio" [matAutocomplete]="auto" placeholder="Ejercicio">
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let opcion of filteredOptionsC | async" [value]="opcion">
+                                            {{ opcion }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <div class="error-message" *ngIf="rutinaFormC.get('ejercicio')?.touched && rutinaFormC.get('ejercicio')?.hasError('required')">El ejercicio es requerido</div>
+                                </div>
 
-            <div>
-                <button (click)="guardar()" class="btn btn-primary" style="width: 100%;">
-          <span class="bi bi-save"></span> Guardar
-        </button>
-            </div>
-        </div>
-    </div>
-</form>
+                                <div class="mb-3" style="margin-right: 1%;">
+                                    <input type="number" class="form-control input-style" placeholder="Tiempo (minutos)" formControlName="tiempo">
+                                    <div class="error-message" *ngIf="rutinaFormC.get('tiempo')?.touched && rutinaFormC.get('tiempo')?.hasError('negativo')">El tiempo no puede ser negativo</div>
+                                    <div class="error-message" *ngIf="rutinaFormC.get('tiempo')?.touched && rutinaFormC.get('tiempo')?.hasError('required')">El tiempo es requerido</div>
+                                </div>
+
+                                <div class="mb-3" style="margin-right: 1%;">
+                                    <input [(ngModel)]="date" type="date" class="form-control input-style" placeholder="(AA-MM-DD)" formControlName="fecha">
+                                    <div class="error-message" *ngIf="rutinaFormC.get('fecha')?.touched && rutinaFormC.get('fecha')?.hasError('required')">La fecha es requerida</div>
+                                </div>
+
+                                <div>
+                                    <button (click)="eliminarEjercicioC(i)" class="btn btn-danger" *ngIf="ejerciciosListC.length > 1">-</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 15%;">
+                        <!-- Botones -->
+                        <div class="mb-3">
+                            <button (click)="agregarRutinaC()" class="btn btn-success" style="width: 100%;">
+                    <span class="bi bi-plus"></span> Agregar
+                    </button>
+                        </div>
+
+                        <div>
+                            <button (click)="guardar()" class="btn btn-primary" style="width: 100%;">
+                    <span class="bi bi-save"></span> Guardar
+                    </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </mat-tab>
+        </mat-tab-group>

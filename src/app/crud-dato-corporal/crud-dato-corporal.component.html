@@ -5,15 +5,17 @@
         <div class="col-md-6" style="width: 100%; padding: 3%;">
             <div class="form-group" style="align-items: center;">
                 <label for="Altura">ALTURA</label>
-                <input *ngIf="agregar" type="number" id="altura" class="form-control" placeholder="Introduce tu altura en cm" formControlName="altura" [(ngModel)]="ultimaAltura">
-                <input *ngIf="!agregar" type="number" id="altura" class="form-control" placeholder="Introduce tu altura en cm" formControlName="altura" [(ngModel)]="altura">
+                <input *ngIf="agregar" type="number" min="0" id="altura" class="form-control" placeholder="Introduce tu altura en cm" formControlName="altura" [(ngModel)]="ultimaAltura">
+                <input *ngIf="!agregar" type="number" min="0" id="altura" class="form-control" placeholder="Introduce tu altura en cm" formControlName="altura" [(ngModel)]="altura">
+                <div class="error-message" *ngIf="datosCorporalForm.get('altura')?.touched && datosCorporalForm.get('altura')?.hasError('negativo')">La altura no puede ser negativa</div>
             </div>
             <br>
             <div class="form-group">
                 <label for="Peso">PESO</label>
-                <input *ngIf="agregar" type="number" id="peso" class="form-control" placeholder="Introduce tu peso en kg" formControlName="peso">
-                <input *ngIf="!agregar" type="number" id="peso" class="form-control" placeholder="Introduce tu peso en kg" formControlName="peso" [(ngModel)]="peso">
+                <input *ngIf="agregar" type="number" min="0" id="peso" class="form-control" placeholder="Introduce tu peso en kg" formControlName="peso">
+                <input *ngIf="!agregar" type="number" min="0" id="peso" class="form-control" placeholder="Introduce tu peso en kg" formControlName="peso" [(ngModel)]="peso">
                 <div class="error-message" *ngIf="datosCorporalForm.get('peso')?.touched && datosCorporalForm.get('peso')?.hasError('required')">El peso es requerido</div>
+                <div class="error-message" *ngIf="datosCorporalForm.get('peso')?.touched && datosCorporalForm.get('peso')?.hasError('negativo')">El peso no puede ser negativo</div>
             </div>
             <br>
             <div class="form-group">

@@ -13,4 +13,9 @@
     justify-content: space-around;
 }
 
+.error-message {
+    color: red;
+    font-size: 10px;
+}
+
 @import '~bootstrap/dist/css/bootstrap.css';

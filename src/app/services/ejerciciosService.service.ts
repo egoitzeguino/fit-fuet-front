@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Rutina } from '../interfaces/rutina';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,9 @@ export class EjerciciosService {
 
   getDescripcionEjercicio(idEjercicio: number): Observable<any> {
     return this.http.get<any>(`${this.APIURL.URL}/api/Ejercicio/obtener-descripcion-ejercicios?idEjercicio=${idEjercicio}`);
+  }
+
+  guardarRutina(rutinalist: Rutina[]): Observable<any>{
+    return this.http.post<any>(`${this.APIURL.URL}/api/Ejercicio/guardar-rutina`,rutinalist);
   }
 }

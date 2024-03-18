@@ -27,16 +27,25 @@ export class CrudDatoCorporalComponent implements OnInit {
   )
   {
     this.datosCorporalForm = this.fb.group({
-      altura: [''],
-      peso: ['', [Validators.required]],
+      altura: ['', [this.noNegativo]],
+      peso: ['', [Validators.required, this.noNegativo]],
       fecha: [''],
     })
   }
+
   ngOnInit(): void {
     this.comprobarSiEsEditar();
     this.obtenerUltimaAltura();
   }
 
+  noNegativo(control: any) {
+    const value = control.value;
+    if (value < 0) {
+      return { negativo: true };
+    }
+    return null;
+  }
+  
   comprobarSiEsEditar(){
     if(localStorage.getItem('datoCorporal') !== null){
       this.agregar = false;
@@ -113,7 +122,7 @@ export class CrudDatoCorporalComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error al editar',
-            text: error.error,
+            text: "No se pudieron modificar los datos",
             confirmButtonText: 'Cerrar'
           })
         })
@@ -122,24 +131,46 @@ export class CrudDatoCorporalComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Datos incorrectos',
-          text: 'Debe rellenar el peso para añadir el nuevo registro',
+          text: 'Los datos introducidos no son correctos',
           confirmButtonText: 'Cerrar'
         });
       }
     }
   }
 
-  //TODO: PEDIR CONFIRMACIÓN PARA ELIMINAR EL REGISTRO
-  eliminar(){
-    this.usuarioService.eliminarDatoCorporal(parseInt(this.datoCorporal.item1)).subscribe(() => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Dato eliminado',
-        text: '¡Registro eliminado con éxito!',
-        confirmButtonText: 'Cerrar'
-      })
-    })
-  }
+  eliminar() {
+    Swal.fire({
+      title: 'Eliminar cuenta',
+      html: '<p>¿Estás seguro de querer eliminar este registro?</p>',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.usuarioService.eliminarDatoCorporal(parseInt(this.datoCorporal.item1)).subscribe(
+          (response: any) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Registro eliminado',
+              text: '¡Registro eliminado exitósamente!',
+              confirmButtonText: 'Cerrar'
+            }).then((respuesta) => {
+              if (respuesta.isConfirmed) {
+                this.router.navigateByUrl("historico-datos-corporales");
+              }
+            });
+          },
+          (error: any) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al eliminar el registro',
+              text: error.error,
+              confirmButtonText: 'Cerrar'
+            });
+          }
+        );
+      }
+    });
+  }  
 
   obtenerUltimaAltura(){
     this.usuarioService.obtenerUltimaAltura(parseInt(localStorage.getItem('idUsuario')!)).subscribe((data: any) => {
