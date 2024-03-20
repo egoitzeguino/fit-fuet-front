@@ -1,0 +1,86 @@
+<div style="width: 80%; margin: 20px auto;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="titulo-y-botones">
+                            <div>
+                                <h1 style="font-weight: bold;">{{ viewDate | calendarDate:(view + 'ViewTitle'):'es' | uppercase }}</h1>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" (click)="irMesAnterior()">
+                                    Siguiente
+                                </button>
+                                <button class="btn btn-outline-secondary" (click)="irHoy()">
+                                    Hoy
+                                </button>
+                                <button class="btn btn-primary" (click)="irSiguienteMes()">
+                                    Anterior
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 20px;">
+                            <mwl-calendar-month-view class=" angular-calendar" [viewDate]="viewDate" [weekStartsOn]="1" (dayClicked)="onDayClick($event)" [events]="diasDeEjercicio"></mwl-calendar-month-view>
+                        </div>
+                        <div class="colores-ejercicios">
+                            <div>
+                                Ejercicios de fuera:
+                                <button disabled style="background-color: #1e90ff;"></button>
+                            </div>
+                            <div>
+                                Ejercicios de cardio:
+                                <button disabled style="background-color: #e3bc08;"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalContent let-close="close">
+    <mat-tab-group class="tab-group">
+        <mat-tab label="Fuerza" *ngIf="fechaContieneFuerza">
+            <div class="modal-body">
+                <div *ngFor="let ejercicio of fechaData;">
+                    <div *ngIf="ejercicio.ejercicio.tipo === 1">
+                        <pre>
+                        Ejercicio: {{ ejercicio.ejercicio.nombre }}
+                      </pre>
+                        <pre>
+                        Series: {{ ejercicio.series }}
+                      </pre>
+                        <pre>
+                        Repeticiones: {{ ejercicio.repeticiones }}
+                      </pre>
+                        <pre>
+                        Peso añadido: {{ ejercicio.peso }}
+                      </pre>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Cardio" *ngIf="fechaContieneCardio">
+            <div class="modal-body">
+                <div *ngFor="let ejercicio of fechaData;">
+                    <div *ngIf="ejercicio.ejercicio.tipo === 0">
+                        <pre>
+                          Ejercicio: {{ ejercicio.ejercicio.nombre }}
+                        </pre>
+                        <pre>
+                          Duración: {{ ejercicio.tiempo }}
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</ng-template>

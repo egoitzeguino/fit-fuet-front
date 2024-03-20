@@ -1,0 +1,14 @@
+.titulo-y-botones {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+.colores-ejercicios {
+    margin-top: 10px;
+}
+
+.colores-ejercicios button {
+    height: 15px;
+    border-radius: 50%;
+}

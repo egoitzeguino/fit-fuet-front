@@ -12,16 +12,17 @@ import { EditarDatosComponent } from './editarDatos/editarDatos.component';
 import { HistoricoDatosCorporalesComponent } from './historico-datos-corporales/historico-datos-corporales.component';
 import { CrudDatoCorporalComponent } from './crud-dato-corporal/crud-dato-corporal.component';
 import { DescripcionEjercicioComponent } from './descripcion-ejercicio/descripcion-ejercicio.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 export const Approutes: Routes = [
   {
     path: '',
     component: FullComponent,
     children: [
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: '/home-page', pathMatch: 'full' },
       {
-        path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+        path: 'home-page',
+        component: HomePageComponent,
         canActivate: [AuthGuard]
       },
       {
@@ -103,6 +104,6 @@ export const Approutes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/about'
+    redirectTo: '/home-page'
   }
 ];
