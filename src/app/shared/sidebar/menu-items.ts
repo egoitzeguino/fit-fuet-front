@@ -3,9 +3,9 @@ import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
 
   {
-    path: '/dashboard',
-    title: 'Dashboard',
-    icon: 'bi bi-speedometer2',
+    path: '/home-page',
+    title: 'Home',
+    icon: 'bi bi-house',
     class: '',
     extralink: false,
     submenu: []

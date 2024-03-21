@@ -44,22 +44,29 @@
     <mat-tab-group class="tab-group">
         <mat-tab label="Fuerza" *ngIf="fechaContieneFuerza">
             <div class="modal-body">
-                <div *ngFor="let ejercicio of fechaData;">
-                    <div *ngIf="ejercicio.ejercicio.tipo === 1">
-                        <pre>
-                        Ejercicio: {{ ejercicio.ejercicio.nombre }}
-                      </pre>
-                        <pre>
-                        Series: {{ ejercicio.series }}
-                      </pre>
-                        <pre>
-                        Repeticiones: {{ ejercicio.repeticiones }}
-                      </pre>
-                        <pre>
-                        Peso añadido: {{ ejercicio.peso }}
-                      </pre>
-                    </div>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ejercicio</th>
+                                <th>Series</th>
+                                <th>Repeticiones</th>
+                                <th>Peso añadido</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let ejercicio of fechaData">
+                            <tr *ngIf="ejercicio.ejercicio.tipo === 1">
+                                <td>{{ ejercicio.ejercicio.nombre }}</td>
+                                <td>{{ ejercicio.series }}</td>
+                                <td>{{ ejercicio.repeticiones }}</td>
+                                <td>{{ ejercicio.peso }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                <br>
+                <p>Kcal quemadas en el entrenamiento de fuerza: <b>{{ kcalFuerza | number:'1.2-2' }}</b></p>
+                <p>Las kcal indicadas son a la hora de la realización de los ejercicios (sin contar descansos), sin embargo, en la tabla de abajo se indica un aproximado por hora</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
@@ -67,16 +74,26 @@
         </mat-tab>
         <mat-tab label="Cardio" *ngIf="fechaContieneCardio">
             <div class="modal-body">
-                <div *ngFor="let ejercicio of fechaData;">
-                    <div *ngIf="ejercicio.ejercicio.tipo === 0">
-                        <pre>
-                          Ejercicio: {{ ejercicio.ejercicio.nombre }}
-                        </pre>
-                        <pre>
-                          Duración: {{ ejercicio.tiempo }}
-                        </pre>
+                <div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ejercicio</th>
+                                    <th>Duración</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let ejercicio of fechaData;">
+                                <tr *ngIf="ejercicio.ejercicio.tipo === 0">
+                                    <td>{{ ejercicio.ejercicio.nombre }}</td>
+                                    <td>{{ ejercicio.tiempo }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                <br>
+                <p>Kcal quemadas en el entrenamiento de fuerza: <b>{{ kcalCardio | number:'1.2-2' }}</b></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
@@ -84,3 +101,49 @@
         </mat-tab>
     </mat-tab-group>
 </ng-template>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">KCal quemadas por hora según los pesos corporales (datos aproximádos)</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Peso corporal (kg)</th>
+                            <th>Calorías quemadas por hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>50</td>
+                            <td>250</td>
+                        </tr>
+                        <tr>
+                            <td>60</td>
+                            <td>300</td>
+                        </tr>
+                        <tr>
+                            <td>70</td>
+                            <td>350</td>
+                        </tr>
+                        <tr>
+                            <td>80</td>
+                            <td>400</td>
+                        </tr>
+                        <tr>
+                            <td>90</td>
+                            <td>450</td>
+                        </tr>
+                        <tr>
+                            <td>100</td>
+                            <td>500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

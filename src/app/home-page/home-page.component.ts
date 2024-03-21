@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CalendarEvent, CalendarEventTitleFormatter, CalendarView } from 'angular-calendar';
 import { EjerciciosService } from '../services/ejerciciosService.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UsuarioService } from '../services/usuarioService.service';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -37,13 +38,22 @@ export class HomePageComponent implements OnInit{
   fechaData: any[] = [];
   fechaContieneFuerza = false;
   fechaContieneCardio = false;
+  kcalFuerza = 0;
+  kcalCardio = 0;
+  ultimoDatoCorporal: any;
 
-  constructor(private ejerciciosService: EjerciciosService, private modal: NgbModal){
+  constructor(
+    private ejerciciosService: EjerciciosService,
+    private modal: NgbModal,
+    private usuarioService: UsuarioService
+  ){
     this.viewDate.setDate(this.viewDate.getDate() - (this.viewDate.getDay() + 6) % 7);
   }
 
   ngOnInit(): void {
     this.obtenerTodasRutinas();
+    this.obtenerUltimoDato();
+    console.log(this.ultimoDatoCorporal);
   }
 
   irHoy() {
@@ -61,10 +71,30 @@ export class HomePageComponent implements OnInit{
   onDayClick(event: any): void {
     //console.log(event);
     //console.log(event.day.events);
+    this.kcalFuerza = 0;
 
     this.ejerciciosService.obtenerRutinaDiaria(parseInt(localStorage.getItem('idUsuario')!), JSON.stringify(event.day.date)).subscribe((response: any) => {
       console.log(response.rutina);
       this.fechaData = response.rutina;
+      this.fechaData.forEach(ejercicio => {
+        if(ejercicio.ejercicio.met !== null && ejercicio.ejercicio.tipo === 1){
+          this.kcalFuerza += ejercicio.ejercicio.met * 0.0175 * this.ultimoDatoCorporal.item2 * ejercicio.series;
+        }
+        else if(ejercicio.ejercicio.tipo === 0) {
+          console.log(ejercicio.ejercicio)
+          var explicacion = ejercicio.ejercicio.explicacion;
+          var regex = /\d+-\d+/g;
+          var matches = explicacion.match(regex);
+          console.log(matches[1]);
+          if (matches && matches.length > 0) {
+            this.kcalCardio += matches[1].split('-')[0] * 0.0175 * this.ultimoDatoCorporal.item2 * (ejercicio.tiempo / 60);
+
+          }
+        }
+        else{
+          this.kcalFuerza += 0.5 * 0.0175 * this.ultimoDatoCorporal.item2 * ejercicio.series;
+        }
+      });
     })
 
     this.fechaContieneFuerza = false;
@@ -89,6 +119,12 @@ export class HomePageComponent implements OnInit{
       for(let rutina of response.listaRutinas){
         this.addCalendarEvent(rutina.item1, rutina.item2, rutina.item3);
       }
+    });
+  }
+
+  obtenerUltimoDato(){
+    this.usuarioService.obtenerUltimoDato(parseInt(localStorage.getItem('idUsuario')!)).subscribe((response: any) => {
+      this.ultimoDatoCorporal = response;
     });
   }
 

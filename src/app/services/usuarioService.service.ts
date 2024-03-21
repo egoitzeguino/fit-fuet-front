@@ -41,4 +41,8 @@ export class UsuarioService {
   obtenerUltimaAltura(idUsuario: number): Observable<any> {
     return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-ultima-altura?idUsuario=${idUsuario}`);
   }
+
+  obtenerUltimoDato(idUsuario: number): Observable<any> {
+    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-ultimo-dato?idUsuario=${idUsuario}`);
+  }
 }
