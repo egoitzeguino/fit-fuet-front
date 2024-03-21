@@ -9,7 +9,7 @@ export class AlimentosService {
   constructor(@Inject('APP_CONFIG') private APIURL: any, public http: HttpClient) { }
 
   getAlimentos(){
-    return this.http.get(`${this.APIURL.url}/api/Alimento/obtener-todos-alimentos`);
+    return this.http.get(`${this.APIURL.URL}/api/Alimento/obtener-todos-alimentos`);
   }
 
 }

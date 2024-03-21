@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 import { AlimentosService } from '../services/alimentosService.service';
 import Swal from 'sweetalert2';
+import { right } from '@popperjs/core';
 
 @Component({
   selector: 'app-alimentos',
@@ -21,7 +22,7 @@ export class AlimentosComponent implements OnInit {
   ngOnInit(): void {
     this.paginar();
     this.aplicarFiltros();
-    //this.getAlimentos();
+    this.getAlimentos();
   }
 
   colDefs: ColDef[] = [
@@ -35,7 +36,7 @@ export class AlimentosComponent implements OnInit {
         }
       }
     },
-    { headerName: "Tipo Alimento", field: "tipoAlimento", width: 250, floatingFilter: true, filter: 'agTextColumnFilter', filterParams: {
+    { headerName: "Tipo Alimento", field: "tipoAlimento", width: 175, floatingFilter: true, filter: 'agTextColumnFilter', filterParams: {
         // Compara todos los textos aunque tengan tíldes o caracteres especiales
         textCustomComparator: (filter: any, value: any, filterText: any) => {
           const normalizedValue = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -45,11 +46,11 @@ export class AlimentosComponent implements OnInit {
       }
     },
     { headerName: "Calorias", field: "calorias" },
-    { headerName: "Carbohidratos", field: "carbohidratos", width: 150 },
+    { headerName: "Carbohidratos", field: "carbohidratos", width: 130 },
     { headerName: "Proteinas", field: "proteinas" },
     { headerName: "Grasas", field: "grasas" },
     { headerName: "Fibra", field: "fibra" },
-    { headerName: "Seleccionar", field: "seleccionar", filter: null, sortable: false, cellRenderer: () =>
+    { headerName: "Seleccionar", field: "seleccionar", filter: null, sortable: false, pinned: right, cellRenderer: () =>
       '<span style="display: flex; justify-content: flex-end; align-items: center; width: 100%; height: 100%;"><i class="bi bi-check"></i></span>'
     }
   ];
@@ -63,7 +64,7 @@ export class AlimentosComponent implements OnInit {
   aplicarFiltros(){
     this.defaultColDef = {
       sortable: true,
-      width: 110,
+      width: 95,
       editable: false,
     };
   }
@@ -77,7 +78,8 @@ export class AlimentosComponent implements OnInit {
   getAlimentos(){
     this.alimentosService.getAlimentos().subscribe(
       (response: any) =>{
-        this.rowData = response;
+        console.log(response);
+        this.rowData = response.listaAlimentos;
         this.loader = false;
       }, (error: any) =>{
         Swal.fire('Error', 'No se pudieron obtener los alimentos', 'error');
