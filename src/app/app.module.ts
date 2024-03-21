@@ -36,6 +36,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import localeEs from '@angular/common/locales/es';
+import { AlimentosComponent } from './alimentos/alimentos.component';
 
 registerLocaleData(localeEs);
 
@@ -53,7 +54,8 @@ registerLocaleData(localeEs);
     HistoricoDatosCorporalesComponent,
     CrudDatoCorporalComponent,
     DescripcionEjercicioComponent,
-    HomePageComponent
+    HomePageComponent,
+    AlimentosComponent
   ],
   imports: [
     CommonModule,

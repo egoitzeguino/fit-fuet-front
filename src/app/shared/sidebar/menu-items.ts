@@ -27,6 +27,14 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path:'/alimentos',
+    title: 'Alimentos',
+    icon: 'bi bi-cart',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path:'/dieta',
     title: 'Dieta',
     icon: 'bi bi-egg-fried',

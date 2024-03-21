@@ -88,7 +88,6 @@ export class HomePageComponent implements OnInit{
           console.log(matches[1]);
           if (matches && matches.length > 0) {
             this.kcalCardio += matches[1].split('-')[0] * 0.0175 * this.ultimoDatoCorporal.item2 * (ejercicio.tiempo / 60);
-
           }
         }
         else{

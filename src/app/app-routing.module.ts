@@ -13,6 +13,7 @@ import { HistoricoDatosCorporalesComponent } from './historico-datos-corporales/
 import { CrudDatoCorporalComponent } from './crud-dato-corporal/crud-dato-corporal.component';
 import { DescripcionEjercicioComponent } from './descripcion-ejercicio/descripcion-ejercicio.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { AlimentosComponent } from './alimentos/alimentos.component';
 
 export const Approutes: Routes = [
   {
@@ -58,6 +59,11 @@ export const Approutes: Routes = [
       {
         path: 'datos-personales',
         loadChildren: () => import('./datos-personales/datos-personales.module').then(m => m.DatosPersonalesModule),
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'alimentos',
+        component: AlimentosComponent,
         canActivate: [AuthGuard]
       },
       {
