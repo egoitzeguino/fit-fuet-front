@@ -1,3 +1,16 @@
 :host {
-  display: block;
+    display: block;
 }
+
+.input-style {
+    width: 100%;
+    background-color: white;
+    /* Establece el color de fondo como blanco */
+}
+
+.error-message {
+    color: red;
+    font-size: 10px;
+}
+
+@import '~bootstrap/dist/css/bootstrap.css';

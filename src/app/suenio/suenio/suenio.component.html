@@ -1,1 +1,41 @@
-<p>suenio works!</p>,
+<form [formGroup]="suenioForm" action="">
+    <div class="container-fluid" style="display: flex; margin-top: 10px;">
+        <div class="row justify-content-between" style="width: 95%; margin-right: 1%;">
+            <div class="column-container">
+                <div class="form-group formularioSuenio" style="margin-right: 15px; margin-left: 15px;">
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <input type="datetime-local" class="form-control input-style" formControlName="horaAcostar" placeholder="Fecha y hora de acostarse">
+                        <div class="error-message" *ngIf="suenioForm.get('horaAcostar')?.touched && suenioForm.get('horaAcostar')?.hasError('required')">La fecha y hora de acostarse es requerida</div>
+                    </div>
+
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <input type="datetime-local" class="form-control input-style" formControlName="horaLevantar" placeholder="Fecha y hora de levantarse">
+                        <div class="error-message" *ngIf="suenioForm.get('horaLevantar')?.touched && suenioForm.get('horaLevantar')?.hasError('required')">La fecha y hora de levantarse es requerida</div>
+                    </div>
+
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <select class="form-select" formControlName="calidad">
+              <option value="" disabled selected>Seleccione la calidad del sueño</option>
+              <option value="buena">Buena</option>
+              <option value="regular">Regular</option>
+              <option value="mala">Mala</option>
+            </select>
+                        <div class="error-message" *ngIf="suenioForm.get('calidad')?.touched && suenioForm.get('calidad')?.hasError('required')">La calidad del sueño es requerida</div>
+                    </div>
+
+                    <div class="mb-3" style="margin-right: 1%;">
+                        <input type="number" class="form-control input-style" formControlName="numLevantar" placeholder="Número de veces que te levantaste">
+                        <div class="error-message" *ngIf="suenioForm.get('numLevantar')?.touched && suenioForm.get('numLevantar')?.hasError('required')">El número de veces que te levantaste es requerido</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 15%;">
+            <div>
+                <button (click)="guardar()" class="btn btn-primary" style="width: 100%;">
+          <span class="bi bi-save"></span> Guardar
+        </button>
+            </div>
+        </div>
+    </div>
+</form>

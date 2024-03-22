@@ -45,4 +45,8 @@ export class UsuarioService {
   obtenerUltimoDato(idUsuario: number): Observable<any> {
     return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-ultimo-dato?idUsuario=${idUsuario}`);
   }
+
+  addSuenio(suenio: any): Observable<any> {
+    return this.http.post<any>(`${this.APIURL.URL}/api/Usuario/suenio`, suenio);
+  }
 }
