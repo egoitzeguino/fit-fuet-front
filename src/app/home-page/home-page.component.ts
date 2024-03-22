@@ -69,8 +69,6 @@ export class HomePageComponent implements OnInit{
   }
 
   onDayClick(event: any): void {
-    //console.log(event);
-    //console.log(event.day.events);
     this.kcalFuerza = 0;
 
     this.ejerciciosService.obtenerRutinaDiaria(parseInt(localStorage.getItem('idUsuario')!), JSON.stringify(event.day.date)).subscribe((response: any) => {

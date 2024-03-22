@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 import { AlimentosService } from '../services/alimentosService.service';
 import Swal from 'sweetalert2';
 import { right } from '@popperjs/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Dieta } from '../interfaces/dieta';
 
 @Component({
   selector: 'app-alimentos',
@@ -10,19 +13,28 @@ import { right } from '@popperjs/core';
   styleUrls: ['./alimentos.component.scss']
 })
 export class AlimentosComponent implements OnInit {
+  @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
   public pagination: any;
   public paginationPageSize: any;
   public paginationPageSizeSelector: any;
   public defaultColDef: any;
   public rowData: any[] = [];
   public loader = true;
+  public formDieta!: FormGroup;
+  public fecha = new Date().toISOString().split('T')[0];
+  alimentoSeleccionado: any;
 
-  constructor(private alimentosService: AlimentosService) { }
+  constructor(private alimentosService: AlimentosService, private modal: NgbModal, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.paginar();
     this.aplicarFiltros();
     this.getAlimentos();
+
+    this.formDieta = this.fb.group({
+      cantidad: ['', [Validators.required, Validators.min(1)]],
+      fecha: ['', [Validators.required]]
+    })
   }
 
   colDefs: ColDef[] = [
@@ -71,19 +83,46 @@ export class AlimentosComponent implements OnInit {
 
   onCellClicked(data: any) {
     if(data.column.colId === "seleccionar"){
-      console.log(data);
+      this.datosFormulario();
+      this.alimentoSeleccionado = data.data;
+      this.modal.open(this.modalContent, { size: 'lg' });
     }
   }
 
   getAlimentos(){
     this.alimentosService.getAlimentos().subscribe(
       (response: any) =>{
-        console.log(response);
         this.rowData = response.listaAlimentos;
         this.loader = false;
       }, (error: any) =>{
         Swal.fire('Error', 'No se pudieron obtener los alimentos', 'error');
       }
     )
+  }
+
+  datosFormulario(){
+    this.formDieta = this.fb.group({
+      cantidad: ['', [Validators.required, Validators.min(1)]],
+      fecha: ['', [Validators.required]]
+    })
+  }
+
+  insertarDieta(){
+    if(this.formDieta.valid){
+        let dietaObject: Dieta = {
+        IdUsuario: parseInt(localStorage.getItem('idUsuario')!),
+        IdAlimento: this.alimentoSeleccionado.id,
+        Cantidad: this.formDieta.value.cantidad,
+        Fecha: this.formDieta.value.fecha
+      };
+
+      this.alimentosService.insertarDieta(dietaObject).subscribe(
+        (response: any) =>{
+          Swal.fire('Exito', 'Se inserto correctamente', 'success');
+          this.modal.dismissAll();
+        }, (error: any) =>{
+          Swal.fire('Error', 'No se inserto correctamente', 'error');
+        })
+    }
   }
 }

@@ -2,3 +2,23 @@
 <ag-grid-angular [pagination]="pagination" [paginationPageSize]="paginationPageSize" [paginationPageSizeSelector]="paginationPageSizeSelector" [defaultColDef]="defaultColDef" class="ag-theme-quartz" style="margin-left: 10%; margin-top: 5%; width: 80%; height: 475px;"
     [rowData]="rowData" [columnDefs]="colDefs" (cellClicked)="onCellClicked($event)">
 </ag-grid-angular>
+
+<ng-template #modalContent let-close="close">
+    <div class="modal-body">
+        <h3>¿Desea agregar el alimento <b>{{alimentoSeleccionado?.nombre}}</b> a su dieta?</h3>
+        <form [formGroup]="formDieta" (ngSubmit)="insertarDieta()">
+            <div class="form-group campos">
+                <label for="username">Cantidad</label>
+                <input type="number" class="form-control" placeholder="Ejemplo: 50 gramos" formControlName="cantidad">
+                <div class="error-message" *ngIf="formDieta.get('cantidad')?.touched && formDieta.get('cantidad')?.hasError('required')">La cantidad es obligatoria</div>
+                <div class="error-message" *ngIf="formDieta.get('cantidad')?.touched && formDieta.get('cantidad')?.hasError('min')">La cantidad debe ser mayor a 0</div>
+            </div>
+            <div class="form-group campos">
+                <label for="username">Fecha</label>
+                <input type="date" class="form-control" formControlName="fecha" [(ngModel)]="fecha">
+                <div class="error-message" *ngIf="formDieta.get('fecha')?.touched && formDieta.get('fecha')?.hasError('required')">La cantidad es obligatoria</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Insertar</button>
+        </form>
+    </div>
+</ng-template>

@@ -10,13 +10,13 @@
                             </div>
                             <div class="btn-group">
                                 <button class="btn btn-primary" (click)="irMesAnterior()">
-                                    Siguiente
+                                  Anterior
                                 </button>
                                 <button class="btn btn-outline-secondary" (click)="irHoy()">
                                     Hoy
                                 </button>
                                 <button class="btn btn-primary" (click)="irSiguienteMes()">
-                                    Anterior
+                                  Siguiente
                                 </button>
                             </div>
                         </div>
@@ -94,6 +94,7 @@
                 </div>
                 <br>
                 <p>Kcal quemadas en el entrenamiento de fuerza: <b>{{ kcalCardio | number:'1.2-2' }}</b></p>
+                <p>Las kcal quemadas son calculadas teniendo en cuenta que el ejercicio se ha llevado a cabo con una intensidad media - alta</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
