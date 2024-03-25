@@ -45,7 +45,7 @@ export class CrudDatoCorporalComponent implements OnInit {
     }
     return null;
   }
-  
+
   comprobarSiEsEditar(){
     if(localStorage.getItem('datoCorporal') !== null){
       this.agregar = false;
@@ -56,7 +56,6 @@ export class CrudDatoCorporalComponent implements OnInit {
     }
   }
 
-  //TODO: Que no se puedan insertar datos negativos
   crud() {
     if(this.agregar){
       if (this.datosCorporalForm.valid) {
@@ -76,8 +75,11 @@ export class CrudDatoCorporalComponent implements OnInit {
             title: 'Dato agregado',
             text: '¡Dato agregado con éxito!',
             confirmButtonText: 'Cerrar'
+          }).then(() => {
+            this.router.navigate(['/datos-personales']).then(() => {
+                window.location.reload();
+            });
           });
-          this.router.navigate(['/datos-personales']);
         },
         (error: any) => {
           console.log(error)
@@ -155,7 +157,9 @@ export class CrudDatoCorporalComponent implements OnInit {
               confirmButtonText: 'Cerrar'
             }).then((respuesta) => {
               if (respuesta.isConfirmed) {
-                this.router.navigateByUrl("historico-datos-corporales");
+                this.router.navigateByUrl("historico-datos-corporales").then(() => {
+                  window.location.reload();
+                })
               }
             });
           },
@@ -170,7 +174,7 @@ export class CrudDatoCorporalComponent implements OnInit {
         );
       }
     });
-  }  
+  }
 
   obtenerUltimaAltura(){
     this.usuarioService.obtenerUltimaAltura(parseInt(localStorage.getItem('idUsuario')!)).subscribe((data: any) => {

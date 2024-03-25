@@ -5,4 +5,5 @@ export interface Usuario {
   email: string;
   passwd: string;
   foto: any[];
+  modo: number;
 }

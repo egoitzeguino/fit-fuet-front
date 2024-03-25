@@ -8,6 +8,8 @@ import { DatosUsuario } from '../interfaces/datosUsuario';
 })
 export class UsuarioService {
 
+  public visible = false;
+
   constructor(
     private http: HttpClient,
     @Inject('APP_CONFIG') private APIURL: any,
@@ -49,4 +51,13 @@ export class UsuarioService {
   addSuenio(suenio: any): Observable<any> {
     return this.http.post<any>(`${this.APIURL.URL}/api/Usuario/suenio`, suenio);
   }
+
+  obtenerObjetivo(idUsuario: number): Observable<any> {
+    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-modo?idUsuario=${idUsuario}`);
+  }
+
+  updateObjetivo(idUsuario: number, modo: number): Observable<any> {
+    return this.http.post<any>(`${this.APIURL.URL}/api/Usuario/cambiar-modo?idUsuario=${idUsuario}&modo=${modo}`,"");
+  }
+
 }

@@ -66,6 +66,7 @@ export class GimnasioComponent implements OnInit
         this.rowData = response;
         this.loader = false;
       }, (error: any) =>{
+        this.loader = false;
         Swal.fire('Error', 'No se pudieron obtener los ejercicios', 'error');
       }
     )

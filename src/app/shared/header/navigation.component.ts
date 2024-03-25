@@ -2,6 +2,8 @@ import { Component, AfterViewInit, EventEmitter, Output, OnInit } from '@angular
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/loginService.service';
+import { UsuarioService } from 'src/app/services/usuarioService.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navigation',
@@ -13,11 +15,13 @@ export class NavigationComponent implements OnInit {
   public nombreUsuario: string | null = localStorage.getItem('usuario');
   public token: string | null = localStorage.getItem('authToken');
   public perfilUsuario?: string;
+  public visible = false;
 
   constructor(
     private modalService: NgbModal,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private usuarioService: UsuarioService
   ) { }
 
   ngOnInit() {
@@ -25,6 +29,7 @@ export class NavigationComponent implements OnInit {
       this.loginService.obtenerImagenUsuario(Number(localStorage.getItem('idUsuario'))).subscribe(response => {
         this.perfilUsuario = response.imagen;
       })
+      this.comprobarVisibilidad();
     }
   }
 
@@ -50,6 +55,18 @@ export class NavigationComponent implements OnInit {
 
   objetivos(){
     this.router.navigate(['/objetivos']);
+  }
+
+  comprobarVisibilidad(){
+    this.usuarioService.obtenerUltimoDato(Number(localStorage.getItem('idUsuario'))).subscribe(response => {
+      if(response.item1 === -1 && response.item2 === -1){
+        this.visible = false;
+      } else{
+        this.visible = true;
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 
 }

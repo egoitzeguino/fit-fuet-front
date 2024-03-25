@@ -18,6 +18,7 @@ export class RegisterService {
       email: email,
       passwd: contrasenia,
       foto: image,
+      modo: 1,
     }
     console.log(user);
 

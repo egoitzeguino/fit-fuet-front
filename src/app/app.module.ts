@@ -37,6 +37,10 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import localeEs from '@angular/common/locales/es';
 import { AlimentosComponent } from './alimentos/alimentos.component';
+import {MatBadgeModule} from '@angular/material/badge';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 registerLocaleData(localeEs);
 
@@ -83,6 +87,8 @@ registerLocaleData(localeEs);
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    MatBadgeModule,
+    MatProgressBarModule,
   ],
   providers: [
     {

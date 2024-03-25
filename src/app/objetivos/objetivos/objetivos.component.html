@@ -1,1 +1,44 @@
-<H2>OBJETIVOS</H2>
+<div class="form-group">
+    <div>
+        <H2>OBJETIVOS</H2>
+        <mat-form-field>
+            <mat-label>Objetivo</mat-label>
+            <mat-select [(value)]="objetivo">
+                <mat-option *ngFor="let option of objetivos" [value]="option.value" (click)="cambiarObjetivo(option.value)">{{ option.viewValue }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button style="margin: 10px;" class="btn btn-primary" *ngIf="objetivo !== currentObjetivo" (click)="guardar()">Guardar</button>
+    </div>
+    <div class="container-progress">
+        <div class="circulo">
+            <circle-progress [percent]="percentValue" [radius]="150" [outerStrokeWidth]="16" [innerStrokeWidth]="8" [outerStrokeColor]="getColor(percentValue)" [innerStrokeColor]="getInnerColor(percentValue)" [animation]="false" [animationDuration]="0" [showSubtitle]="false"
+                [title]="cantidadKcal.toString()" [units]="'Kcal'" [subtitle]="'de ' + cantidadKcalRequerida.toString()" [showSubtitle]="true" [subtitleFontSize]="'15px'"></circle-progress>
+        </div>
+        <div class="barras-progreso">
+            <div class="texto-barra">
+                Carbohidratos
+                <mat-progress-bar mode="determinate" color="accent" [value]="((cantidadCarbo * 100) / cantidadMaximaCarbo )" class="progressbar"></mat-progress-bar>
+                {{ cantidadCarbo.toString() | number: '1.0-2' }} / {{ cantidadMaximaCarbo.toString() | number: '1.0-2' }}
+            </div>
+            <div class="texto-barra">
+                Proteinas
+                <mat-progress-bar mode="determinate" color="accent" [value]="((100 * cantidadProte) / cantidadMaximaProte)" class=" progressbar"></mat-progress-bar>
+                {{ cantidadProte.toString() | number: '1.0-2'}} / {{ cantidadMaximaProte.toString() | number: '1.0-2' }}
+            </div>
+            <div class="texto-barra ">
+                Grasas
+                <mat-progress-bar mode="determinate" color="accent" [value]="((100 * cantidadGrasas) / cantidadMaximaGrasas)" class="progressbar"></mat-progress-bar>
+                {{ cantidadGrasas.toString() | number: '1.0-2' }} / {{ cantidadMaximaGrasas.toString() | number: '1.0-2' }}
+            </div>
+        </div>
+        <div class="informacion ">
+            <p>
+                Generalmente, los hombres tienden a requerir unas pocas calorías más debido a su composición corporal y niveles metabólicos diferentes, mientras que las mujeres tienden a necesitar un poco menos.
+            </p>
+            <p>
+                Los datos mostrados son para personas que hacen deporte entre 3 y 5 veces a la semana aproximádamente.
+            </p>
+        </div>
+    </div>
+
+</div>

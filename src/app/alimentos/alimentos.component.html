@@ -18,7 +18,7 @@
                 <input type="date" class="form-control" formControlName="fecha" [(ngModel)]="fecha">
                 <div class="error-message" *ngIf="formDieta.get('fecha')?.touched && formDieta.get('fecha')?.hasError('required')">La cantidad es obligatoria</div>
             </div>
-            <button type="submit" class="btn btn-primary">Insertar</button>
+            <button type="submit" class="btn btn-primary">Agregar</button>
         </form>
     </div>
 </ng-template>

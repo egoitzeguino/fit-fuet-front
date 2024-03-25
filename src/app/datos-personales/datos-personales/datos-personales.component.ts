@@ -41,6 +41,7 @@ export class DatosPersonalesComponent implements OnInit{
   public imc: number[] = [];
   public fecha: Date[] = [];
   public mostrarDatosCorporales = false;
+  public visible = false;
 
   constructor(private router: Router, private loginService: LoginService, private usuarioService: UsuarioService) {
     this.cargarGrafico();
@@ -68,6 +69,7 @@ export class DatosPersonalesComponent implements OnInit{
         }
       );
       this.loader = false;
+      this.comprobarVisibilidad();
     }, 1000);
   }
 
@@ -192,5 +194,17 @@ export class DatosPersonalesComponent implements OnInit{
 
     Crud() {
       this.router.navigateByUrl("dato-corporal");
+    }
+
+    comprobarVisibilidad(){
+      this.usuarioService.obtenerUltimoDato(Number(localStorage.getItem('idUsuario'))).subscribe(response => {
+        if(response.item1 === -1 && response.item2 === -1){
+          this.visible = false;
+        } else{
+          this.visible = true;
+        }
+      }, error => {
+        console.log(error);
+      });
     }
 }

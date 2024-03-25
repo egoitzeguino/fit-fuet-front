@@ -1,3 +1,42 @@
 :host {
-  display: block;
+    display: block;
+}
+
+.container-progress {
+    display: flex;
+    flex-direction: column;
+}
+
+.circulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.barras-progreso {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    height: 50px;
+    width: 40%;
+}
+
+.texto-barra {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.progressbar {
+    width: 95%;
+}
+
+mat-progress-bar {
+    height: 20px;
+}
+
+.informacion {
+    margin-top: 30px;
 }
