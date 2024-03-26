@@ -96,6 +96,10 @@ export class LoginComponent implements OnInit {
         );
     }
   }
+
+  irRegister() {
+    this.router.navigate(['/registro']);
+  }
 }
 
 

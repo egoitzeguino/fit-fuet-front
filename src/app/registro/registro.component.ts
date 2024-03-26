@@ -133,4 +133,8 @@ export class RegistroComponent {
       }
     }
   }
+
+  irLogin() {
+    this.router.navigate(['/login']);
+  }
 }

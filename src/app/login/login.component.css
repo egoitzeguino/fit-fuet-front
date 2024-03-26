@@ -90,3 +90,13 @@
     color: red;
     font-size: 10px;
 }
+
+.boton-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #0000EE;
+}

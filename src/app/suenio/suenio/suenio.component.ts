@@ -50,15 +50,14 @@ export class SuenioComponent implements OnInit{
 
       const suenio: Suenio = {
         idUsuario: parseInt(localStorage.getItem('idUsuario')!),
-        horaAcostar: new Date(nuevoSuenio.horaAcostar),
-        horaLevantar: new Date(nuevoSuenio.horaLevantar),
+        horaAcostar: new Date(new Date(nuevoSuenio.horaAcostar).getTime() + 60 * 60 * 1000),
+        horaLevantar: new Date(new Date(nuevoSuenio.horaLevantar).getTime() + 60 * 60 * 1000),
         calidad: nuevoSuenio.calidad,
         numLevantar: nuevoSuenio.numLevantar
       };
 
       this.usuarioService.addSuenio(suenio).subscribe(
         (response: any) => {
-          console.log(response);
           Swal.fire({
             icon: 'success',
             title: 'Sueño añadido',
@@ -70,7 +69,7 @@ export class SuenioComponent implements OnInit{
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Error al añadir el sueño',
+            text: error.error,
             confirmButtonText: 'Cerrar'
           });
         }

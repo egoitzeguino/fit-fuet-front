@@ -52,6 +52,14 @@ export class UsuarioService {
     return this.http.post<any>(`${this.APIURL.URL}/api/Usuario/suenio`, suenio);
   }
 
+  obtenerListaSuenio(idUsuario: number):Observable<any>{
+    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/get-suenios?idUsuario=${idUsuario}`);
+  }
+
+  obtenerSuenio(idUsuario: number, fecha: string):Observable<any>{
+    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/get-suenio?idUsuario=${idUsuario}&horaAcostar=${fecha}`);
+  }
+
   obtenerObjetivo(idUsuario: number): Observable<any> {
     return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/obtener-modo?idUsuario=${idUsuario}`);
   }

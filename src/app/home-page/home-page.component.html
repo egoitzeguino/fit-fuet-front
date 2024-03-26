@@ -32,6 +32,10 @@
                                 Ejercicios de cardio:
                                 <button disabled style="background-color: #e3bc08;"></button>
                             </div>
+                            <div>
+                                Sueño:
+                                <button disabled style="background-color: #800080;"></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,13 +104,27 @@
                 <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
             </div>
         </mat-tab>
+        <mat-tab label="Sueño" *ngIf="fechaContieneSuenio">
+            <div class="modal-body">
+                <h2>Detalles del Sueño</h2>
+                <ul>
+                    <li><strong>Hora de Acostarse:</strong> {{ suenioActual?.horaAcostar | date:'HH:mm:ss' }}</li>
+                    <li><strong>Hora de Levantarse:</strong> {{ suenioActual?.horaLevantar | date:'HH:mm:ss' }}</li>
+                    <li><strong>Calidad del Sueño:</strong> {{ suenioActual?.calidad | titlecase }}</li>
+                    <li><strong>Número de Veces Levantado:</strong> {{ suenioActual?.numLevantar }}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+            </div>
+        </mat-tab>
     </mat-tab-group>
 </ng-template>
 
 <div class="container mt-4">
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">KCal quemadas por hora según los pesos corporales (datos aproximádos)</h2>
+            <h2 class="card-title">Kcal quemadas por hora según los pesos corporales (datos aproximádos)</h2>
         </div>
         <div class="card-body">
             <div class="table-responsive">
