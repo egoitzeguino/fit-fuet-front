@@ -6,6 +6,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
       animationDuration: 300,
     }),
     MatProgressBarModule,
+    MatProgressSpinnerModule
   ]
 })
 export class ObjetivosModule { }

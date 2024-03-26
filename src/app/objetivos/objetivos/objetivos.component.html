@@ -1,3 +1,4 @@
+<mat-spinner class="spinner" *ngIf="loader"></mat-spinner>
 <div class="form-group">
     <div>
         <H2>OBJETIVOS</H2>
@@ -11,24 +12,24 @@
     </div>
     <div class="container-progress">
         <div class="circulo">
-            <circle-progress [percent]="percentValue" [radius]="150" [outerStrokeWidth]="16" [innerStrokeWidth]="8" [outerStrokeColor]="getColor(percentValue)" [innerStrokeColor]="getInnerColor(percentValue)" [animation]="false" [animationDuration]="0" [showSubtitle]="false"
-                [title]="cantidadKcal.toString()" [units]="'Kcal'" [subtitle]="'de ' + cantidadKcalRequerida.toString()" [showSubtitle]="true" [subtitleFontSize]="'15px'"></circle-progress>
+            <circle-progress [percent]="percentValue" [radius]="150" [outerStrokeWidth]="16" [innerStrokeWidth]="8" [outerStrokeColor]="getColor(percentValue)" [innerStrokeColor]="getInnerColor(percentValue)" [animation]="true" [animationDuration]="300" [showSubtitle]="false"
+                [title]="cantidadKcal.toString()" [units]="'Kcal'" [subtitle]="['de ' + cantidadKcalRequerida, '' ,'CALORÍAS QUEMADAS HOY:' , this.kcalQuemadas.toFixed(2) + ' kcal']" [showSubtitle]="true" [subtitleFontSize]="'15px'"></circle-progress>
         </div>
         <div class="barras-progreso">
             <div class="texto-barra">
                 Carbohidratos
                 <mat-progress-bar mode="determinate" color="accent" [value]="((cantidadCarbo * 100) / cantidadMaximaCarbo )" class="progressbar"></mat-progress-bar>
-                {{ cantidadCarbo.toString() | number: '1.0-2' }} / {{ cantidadMaximaCarbo.toString() | number: '1.0-2' }}
+                {{ cantidadCarbo.toString() | number: '1.0-2' }} / {{ cantidadMaximaCarbo.toString() | number: '1.0-2' }} g
             </div>
             <div class="texto-barra">
                 Proteinas
                 <mat-progress-bar mode="determinate" color="accent" [value]="((100 * cantidadProte) / cantidadMaximaProte)" class=" progressbar"></mat-progress-bar>
-                {{ cantidadProte.toString() | number: '1.0-2'}} / {{ cantidadMaximaProte.toString() | number: '1.0-2' }}
+                {{ cantidadProte.toString() | number: '1.0-2'}} / {{ cantidadMaximaProte.toString() | number: '1.0-2' }} g
             </div>
             <div class="texto-barra ">
                 Grasas
                 <mat-progress-bar mode="determinate" color="accent" [value]="((100 * cantidadGrasas) / cantidadMaximaGrasas)" class="progressbar"></mat-progress-bar>
-                {{ cantidadGrasas.toString() | number: '1.0-2' }} / {{ cantidadMaximaGrasas.toString() | number: '1.0-2' }}
+                {{ cantidadGrasas.toString() | number: '1.0-2' }} / {{ cantidadMaximaGrasas.toString() | number: '1.0-2' }} g
             </div>
         </div>
         <div class="informacion ">

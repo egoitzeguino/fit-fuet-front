@@ -53,7 +53,6 @@ export class HomePageComponent implements OnInit{
   ngOnInit(): void {
     this.obtenerTodasRutinas();
     this.obtenerUltimoDato();
-    console.log(this.ultimoDatoCorporal);
   }
 
   irHoy() {
@@ -72,18 +71,15 @@ export class HomePageComponent implements OnInit{
     this.kcalFuerza = 0;
 
     this.ejerciciosService.obtenerRutinaDiaria(parseInt(localStorage.getItem('idUsuario')!), JSON.stringify(event.day.date)).subscribe((response: any) => {
-      console.log(response.rutina);
       this.fechaData = response.rutina;
       this.fechaData.forEach(ejercicio => {
         if(ejercicio.ejercicio.met !== null && ejercicio.ejercicio.tipo === 1){
           this.kcalFuerza += ejercicio.ejercicio.met * 0.0175 * this.ultimoDatoCorporal.item2 * ejercicio.series;
         }
         else if(ejercicio.ejercicio.tipo === 0) {
-          console.log(ejercicio.ejercicio)
           var explicacion = ejercicio.ejercicio.explicacion;
           var regex = /\d+-\d+/g;
           var matches = explicacion.match(regex);
-          console.log(matches[1]);
           if (matches && matches.length > 0) {
             this.kcalCardio += matches[1].split('-')[0] * 0.0175 * this.ultimoDatoCorporal.item2 * (ejercicio.tiempo / 60);
           }
@@ -98,7 +94,6 @@ export class HomePageComponent implements OnInit{
     this.fechaContieneCardio = false;
 
     if (event.day.events.length > 0) {
-      console.log(event.day.events);
       for(let i = 0; i < event.day.events.length; i++){
         if(event.day.events[i].title === 'Fuerza'){
           this.fechaContieneFuerza = true;
