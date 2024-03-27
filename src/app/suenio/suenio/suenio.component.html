@@ -27,6 +27,7 @@
                     <div class="mb-3 " style="margin-right: 1%; ">
                         <input type="number " class="form-control input-style " formControlName="numLevantar" placeholder="Número de veces que te levantaste ">
                         <div class="error-message " *ngIf="suenioForm.get('numLevantar')?.touched && suenioForm.get('numLevantar')?.hasError('required') ">El número de veces que te levantaste es requerido</div>
+                        <div class="error-message " *ngIf="suenioForm.get('numLevantar')?.touched && suenioForm.get('numLevantar')?.hasError('min') ">El número de veces que te levantes no puede ser negativo</div>
                     </div>
                 </div>
             </div>

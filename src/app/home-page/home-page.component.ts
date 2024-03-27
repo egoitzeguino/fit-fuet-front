@@ -52,21 +52,13 @@ export class HomePageComponent implements OnInit {
   public suenioActual: Suenio = {idUsuario: 0, horaAcostar: new Date(),horaLevantar: new Date(), calidad: "", numLevantar: 0};
   bloquarEditarSuenio: boolean = true;
   public loader = true;
-  suenioCalendarForm: FormGroup;
 
   constructor(
     private ejerciciosService: EjerciciosService,
     private modal: NgbModal,
     private usuarioService: UsuarioService,
-    private fb: FormBuilder,
   ) {
     this.viewDate.setDate(this.viewDate.getDate() - (this.viewDate.getDay() + 6) % 7);
-    this.suenioCalendarForm = this.fb.group({
-      horaAcostar: ['', Validators.required],
-      horaLevantar: ['', [Validators.required]],
-      calidad: ['', [Validators.required]],
-      numLevantar: ['', [ Validators.required]],
-    }, { validators: this.diferenciaMaximaUnDia })
   }
 
   ngOnInit(): void {
@@ -104,6 +96,16 @@ export class HomePageComponent implements OnInit {
 
   irMesAnterior() {
     this.viewDate = new Date(this.viewDate.setMonth(this.viewDate.getMonth() - 1));
+  }
+
+  diferenciaHorasMayor24(): boolean {
+    if (this.suenioActual && this.suenioActual.horaAcostar && this.suenioActual.horaLevantar) {
+      const horaAcostar = new Date(this.suenioActual.horaAcostar).getTime();
+      const horaLevantar = new Date(this.suenioActual.horaLevantar).getTime();
+      const diferenciaHoras = Math.abs(horaLevantar - horaAcostar) / (1000 * 60 * 60);
+      return diferenciaHoras > 24;
+    }
+    return false;
   }
 
   onDayClick(event: any): void {

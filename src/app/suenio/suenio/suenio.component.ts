@@ -22,7 +22,7 @@ export class SuenioComponent implements OnInit{
       horaAcostar: ['', Validators.required],
       horaLevantar: ['', [Validators.required]],
       calidad: ['', [Validators.required]],
-      numLevantar: ['', [ Validators.required]],
+      numLevantar: ['', [Validators.required, Validators.min(0)]],
     }, { validators: this.diferenciaMaximaUnDia })
   }
 
