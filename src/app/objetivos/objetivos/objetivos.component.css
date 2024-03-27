@@ -2,9 +2,28 @@
     display: block;
 }
 
+.spinner {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
 .container-progress {
     display: flex;
     flex-direction: column;
+}
+
+.text-recomendacion {
+    position: absolute;
+    margin-right: 5%;
+    margin-left: -5%;
+}
+
+.label-y-recomendacion {
+    display: flex;
+    justify-content: space-between;
 }
 
 .circulo {

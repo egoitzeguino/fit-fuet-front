@@ -22,4 +22,8 @@ export class AlimentosService {
     return this.http.get<any>(`${this.APIURL.URL}/api/Alimento/obtener-dieta?idUsuario=${idUsuario}&fecha=${fecha}`);
   }
 
+  obtenerRecomendacion(carbo: number, prote: number, grasas:number): Observable<any> {
+    return this.http.get<any>(`${this.APIURL.URL}/api/Alimento/obtener-recomendacion?porcentajeCarbo=${carbo}&porcentajeProte=${prote}&porcentajeGrasa=${grasas}`);
+  }
+
 }

@@ -32,11 +32,12 @@ export class ObjetivosComponent implements OnInit {
   public cantidadMaximaGrasas: number = 0;
   public kcalQuemadas: number = 0;
   ultimoDatoCorporal: any = 0;
+  public textoRecomendacion: any = this.resaltarTexto("");
 
   objetivos: Objetivo[] = [
-    {value: '0', viewValue: 'Perder Peso'},
-    {value: '1', viewValue: 'Mantener Peso'},
-    {value: '2', viewValue: 'Ganar Peso'},
+    { value: '0', viewValue: 'Perder Peso' },
+    { value: '1', viewValue: 'Mantener Peso' },
+    { value: '2', viewValue: 'Ganar Peso' },
   ];
   public currentObjetivo: string | undefined;
 
@@ -56,7 +57,7 @@ export class ObjetivosComponent implements OnInit {
     this.obtenerKcalQuemadas();
   }
 
-  obtenerObjetivo(){
+  obtenerObjetivo() {
     this.usuarioService.obtenerObjetivo(parseInt(localStorage.getItem('idUsuario')!)).subscribe(
       (response: any) => {
         this.objetivo = this.objetivos[response.modo].value;
@@ -68,11 +69,11 @@ export class ObjetivosComponent implements OnInit {
     )
   }
 
-  obtenerUltimoDato(){
+  obtenerUltimoDato() {
     this.usuarioService.obtenerUltimoDato(parseInt(localStorage.getItem('idUsuario')!)).subscribe(
       (response: any) => {
-        this.ultimoDatoCorporal =response;
-        if(response.item1 === -1 && response.item2 === -1){
+        this.ultimoDatoCorporal = response;
+        if (response.item1 === -1 && response.item2 === -1) {
           Swal.fire({
             icon: 'error',
             title: 'Dato corporal necesario',
@@ -81,7 +82,7 @@ export class ObjetivosComponent implements OnInit {
           }).then(() => {
             this.router.navigate(['/datos-personales']);
           })
-        } else{
+        } else {
           this.peso = response.item2;
         }
       }
@@ -93,11 +94,11 @@ export class ObjetivosComponent implements OnInit {
       return 'rgba(200, 50, 50, 1)'; // Rojo
     } else if (percent >= 30 && percent <= 70) {
       return 'rgba(255, 128, 0, 1)'; // Naranja
-    } else if (percent >= 70 && percent < 90){
+    } else if (percent >= 70 && percent < 90) {
       return 'rgba(50, 200, 50, 1)'; // Verde
-    } else if(percent >= 90 && percent <= 100){
-      return  'rgba(50, 50, 200, 1)'; // Azul
-    }else{
+    } else if (percent >= 90 && percent <= 100) {
+      return 'rgba(50, 50, 200, 1)'; // Azul
+    } else {
       return 'rgba(200, 50, 50, 1)'; // Rojo
     }
   }
@@ -107,19 +108,19 @@ export class ObjetivosComponent implements OnInit {
       return 'rgba(255, 0, 0, 0.2)'; // Rojo casi transparente
     } else if (percent >= 30 && percent <= 70) {
       return 'rgba(255, 128, 0, 0.2)'; // Naranja casi transparente
-    } else if (percent >= 70 && percent < 90){
+    } else if (percent >= 70 && percent < 90) {
       return 'rgba(0, 128, 0, 0.2)'; // Verde casi transparente
     } else if (percent >= 90 && percent <= 100) {
       return '#ADD8E6'; // Azul casi transparente
-    } else{
+    } else {
       return 'rgba(255, 0, 0, 0.2)'; // Rojo casi transparente
     }
   }
 
-  obtenerKcalRequerida(){
-    if(this.objetivo === '0'){
+  obtenerKcalRequerida() {
+    if (this.objetivo === '0') {
       this.cantidadKcalRequerida = this.cantidadKcalRequerida - 300;
-    } else if(this.objetivo === '2'){
+    } else if (this.objetivo === '2') {
       this.cantidadKcalRequerida = this.cantidadKcalRequerida + 300;
     }
     this.percentValue = this.cantidadKcal / this.cantidadKcalRequerida * 100;
@@ -142,11 +143,11 @@ export class ObjetivosComponent implements OnInit {
 
         this.percentValue = this.cantidadKcal / this.cantidadKcalRequerida * 100;
 
-        if(this.objetivo === '0'){
+        if (this.objetivo === '0') {
           this.cantidadKcalInicial = this.cantidadKcalRequerida + 300; //le sumamos 300 para tener seteada una variable con el modo 1
-        } else if(this.objetivo === '2'){
+        } else if (this.objetivo === '2') {
           this.cantidadKcalInicial = this.cantidadKcalRequerida - 300; //le restamos 300 para tener seteada una variable con el modo 1
-        } else{
+        } else {
           this.cantidadKcalInicial = this.cantidadKcalRequerida;
         }
 
@@ -159,15 +160,15 @@ export class ObjetivosComponent implements OnInit {
     )
   }
 
-  cambiarObjetivo(modo: string){
+  cambiarObjetivo(modo: string) {
     this.objetivo = modo;
 
     //Recalculamos kcal totales
-    if(this.objetivo === '0'){
+    if (this.objetivo === '0') {
       this.cantidadKcalRequerida = this.cantidadKcalInicial - 300;
-    } else if(this.objetivo === '2'){
+    } else if (this.objetivo === '2') {
       this.cantidadKcalRequerida = this.cantidadKcalInicial + 300;
-    } else{
+    } else {
       this.cantidadKcalRequerida = this.cantidadKcalInicial;
     }
 
@@ -176,18 +177,18 @@ export class ObjetivosComponent implements OnInit {
     this.cantidadMaximaProte = (this.cantidadKcalRequerida * 0.25) / 4;
     this.cantidadMaximaGrasas = (this.cantidadKcalRequerida * 0.25) / 9;
   }
-  guardar(){
-    this.usuarioService.updateObjetivo(parseInt(localStorage.getItem('idUsuario')!),parseInt(this.objetivo)).subscribe(
+  guardar() {
+    this.usuarioService.updateObjetivo(parseInt(localStorage.getItem('idUsuario')!), parseInt(this.objetivo)).subscribe(
       (response: any) => {
         this.currentObjetivo = this.objetivo;
-        if(this.objetivo === '0'){
+        if (this.objetivo === '0') {
           Swal.fire({
             icon: 'info',
             title: 'Definición',
             text: 'Ten en cuenta que si quieres hacer una definición más agresiva deberás consumir menos calorías',
             confirmButtonText: 'Cerrar',
           });
-        } else if(this.objetivo === '2'){
+        } else if (this.objetivo === '2') {
           Swal.fire({
             icon: 'info',
             title: 'Volumen',
@@ -202,30 +203,45 @@ export class ObjetivosComponent implements OnInit {
     );
   }
 
-obtenerKcalQuemadas(){
+  obtenerKcalQuemadas() {
+    this.ejerciciosService.obtenerRutinaDiaria(parseInt(localStorage.getItem('idUsuario')!), new Date().toISOString().split('T')[0]).subscribe(
+      (response: any) => {
+        response.rutina.forEach((ejercicio: any) => {
+          if (ejercicio.ejercicio.met !== null && ejercicio.ejercicio.tipo === 1) {
+            this.kcalQuemadas += ejercicio.ejercicio.met * 0.0175 * this.ultimoDatoCorporal.item2 * ejercicio.series;
+          }
+          else if (ejercicio.ejercicio.tipo === 0) {
+            var explicacion = ejercicio.ejercicio.explicacion;
+            var regex = /\d+-\d+/g;
+            var matches = explicacion.match(regex);;
+            if (matches && matches.length > 0) {
+              this.kcalQuemadas += matches[1].split('-')[0] * 0.0175 * this.ultimoDatoCorporal.item2 * (ejercicio.tiempo / 60);
+            }
+          }
+          else {
+            this.kcalQuemadas += 0.5 * 0.0175 * this.ultimoDatoCorporal.item2 * ejercicio.series;
+          }
+        });
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    )
+  }
 
-  this.ejerciciosService.obtenerRutinaDiaria(parseInt(localStorage.getItem('idUsuario')!), new Date().toISOString().split('T')[0]).subscribe(
-    (response: any) => {
-      response.rutina.forEach((ejercicio: any) => {
-      if(ejercicio.ejercicio.met !== null && ejercicio.ejercicio.tipo === 1){
-        this.kcalQuemadas += ejercicio.ejercicio.met * 0.0175 * this.ultimoDatoCorporal.item2 * ejercicio.series;
-      }
-      else if(ejercicio.ejercicio.tipo === 0) {
-        var explicacion = ejercicio.ejercicio.explicacion;
-        var regex = /\d+-\d+/g;
-        var matches = explicacion.match(regex);;
-        if (matches && matches.length > 0) {
-          this.kcalQuemadas += matches[1].split('-')[0] * 0.0175 * this.ultimoDatoCorporal.item2 * (ejercicio.tiempo / 60);
-        }
-      }
-      else{
-        this.kcalQuemadas += 0.5 * 0.0175 * this.ultimoDatoCorporal.item2 * ejercicio.series;
-      }
+  recomendar(){
+    this.alimentosService.obtenerRecomendacion(((this.cantidadCarbo * 100) / this.cantidadMaximaCarbo ),((100 * this.cantidadProte) / this.cantidadMaximaProte),((100 * this.cantidadGrasas) / this.cantidadMaximaGrasas)).subscribe((response)=>{
+      this.textoRecomendacion = this.resaltarTexto(response.alimentoRecomendacion);
     });
-    },
-    (error: any) => {
-      console.log(error);
+  }
+
+  resaltarTexto(texto: string): {antes: string, resaltado: string, despues: string} {
+    const partes = texto.split('|');
+
+    if (partes.length === 3) {
+      return { antes: partes[0], resaltado: partes[1], despues: partes[2] };
+    } else {
+      return { antes: texto, resaltado: '', despues: '' };
     }
-  )
-}
+  }
 }
