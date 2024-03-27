@@ -63,7 +63,6 @@ export class RegistroComponent {
 
     reader.onloadend = () => {
       this.imagen = reader.result;
-      console.log(this.imagen);
     };
 
     if(this.imagen ){
@@ -79,7 +78,6 @@ export class RegistroComponent {
       const email = this.registerForm.get('email')!.value;
       const contrasenia = this.registerForm.get('contrasenia')!.value;
       const encriptedPasswd = this.encryptionService.encryptPassword(contrasenia);
-      console.log(this.imagen);
       if(this.imagen.startsWith('data:image')){
         this.registerService.register(dni, nombre, apellido, email, encriptedPasswd, this.imagen).subscribe(
           (response) => {

@@ -1,0 +1,5 @@
+<div class="carousel-container">
+    <div class="carousel-slide" [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'">
+        <img *ngFor="let image of images" [src]="rutaImagenes + image" alt="Slide">
+    </div>
+</div>

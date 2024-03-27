@@ -40,6 +40,9 @@ import { AlimentosComponent } from './alimentos/alimentos.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { CarruselImagenesComponent } from './carrusel-imagenes/carrusel-imagenes.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
 
 
 registerLocaleData(localeEs);
@@ -59,7 +62,8 @@ registerLocaleData(localeEs);
     CrudDatoCorporalComponent,
     DescripcionEjercicioComponent,
     HomePageComponent,
-    AlimentosComponent
+    AlimentosComponent,
+    CarruselImagenesComponent
   ],
   imports: [
     CommonModule,
@@ -89,6 +93,8 @@ registerLocaleData(localeEs);
     }),
     MatBadgeModule,
     MatProgressBarModule,
+    MatIconModule,
+    MatSelectModule,
   ],
   providers: [
     {

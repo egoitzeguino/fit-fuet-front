@@ -5,6 +5,8 @@ import { EjerciciosService } from '../services/ejerciciosService.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsuarioService } from '../services/usuarioService.service';
 import { Suenio } from '../interfaces/suenio';
+import Swal from 'sweetalert2';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -47,20 +49,49 @@ export class HomePageComponent implements OnInit {
   kcalFuerza = 0;
   kcalCardio = 0;
   ultimoDatoCorporal: any;
-  public suenioActual!: Suenio | null;
+  public suenioActual: Suenio = {idUsuario: 0, horaAcostar: new Date(),horaLevantar: new Date(), calidad: "", numLevantar: 0};
+  bloquarEditarSuenio: boolean = true;
+  public loader = true;
+  suenioCalendarForm: FormGroup;
 
   constructor(
     private ejerciciosService: EjerciciosService,
     private modal: NgbModal,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private fb: FormBuilder,
   ) {
     this.viewDate.setDate(this.viewDate.getDate() - (this.viewDate.getDay() + 6) % 7);
+    this.suenioCalendarForm = this.fb.group({
+      horaAcostar: ['', Validators.required],
+      horaLevantar: ['', [Validators.required]],
+      calidad: ['', [Validators.required]],
+      numLevantar: ['', [ Validators.required]],
+    }, { validators: this.diferenciaMaximaUnDia })
   }
 
   ngOnInit(): void {
     this.obtenerTodasRutinas();
     this.obtenerUltimoDato();
     this.obtenerTodosSuenio();
+  }
+
+  diferenciaMaximaUnDia(control: AbstractControl): { [key: string]: any } | null {
+    const horaAcostar = new Date(control.get('horaAcostar')?.value);
+    const horaLevantar = new Date(control.get('horaLevantar')?.value);
+
+    if (!horaAcostar || !horaLevantar) {
+      return null;
+    }
+
+    const diferencia = Math.abs(horaLevantar.getTime() - horaAcostar.getTime());
+
+    const diasDiferencia = Math.ceil(diferencia / (1000 * 3600 * 24));
+
+    if (diasDiferencia > 1) {
+      return { diferenciaMaximaUnDia: true };
+    }
+
+    return null;
   }
 
   irHoy() {
@@ -80,6 +111,7 @@ export class HomePageComponent implements OnInit {
     this.fechaContieneFuerza = false;
     this.fechaContieneCardio = false;
     this.fechaContieneSuenio = false;
+    this.bloquarEditarSuenio = true;
 
     if (event.day.events.length > 0) {
       for (let i = 0; i < event.day.events.length; i++) {
@@ -92,10 +124,8 @@ export class HomePageComponent implements OnInit {
         }
       }
 
-      this.suenioActual = null;
-
       if (this.fechaContieneSuenio) {
-        this.usuarioService.obtenerSuenio(parseInt(localStorage.getItem('idUsuario')!), new Date(new Date(event.day.date).getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]).subscribe((response: any) => {
+        this.usuarioService.obtenerSuenio(parseInt(localStorage.getItem('idUsuario')!), new Date(new Date(event.day.date).getTime() + (24 * 60 * 60 * 1000) * 2).toISOString().split('T')[0]).subscribe((response: any) => {
           this.suenioActual = response.suenio;
         });
       }
@@ -140,9 +170,26 @@ export class HomePageComponent implements OnInit {
   obtenerTodosSuenio() {
     this.usuarioService.obtenerListaSuenio(parseInt(localStorage.getItem('idUsuario')!)).subscribe((response: any) => {
       for (let suenio of response.suenioList) {
-        this.addCalendarEvent(new Date(new Date(suenio.horaLevantar).getTime() - 24 * 60 * 60 * 1000), false, false, true);
+        if (
+          new Date(suenio.horaLevantar).getDate() !== new Date(suenio.horaAcostar).getDate() ||
+          new Date(suenio.horaLevantar).getMonth() !== new Date(suenio.horaAcostar).getMonth() ||
+          new Date(suenio.horaLevantar).getFullYear() !== new Date(suenio.horaAcostar).getFullYear()
+        ){
+          this.addCalendarEvent(new Date(new Date(suenio.horaAcostar).getTime()), false, false, true);
+        } else{
+          this.addCalendarEvent(new Date(new Date(suenio.horaLevantar).getTime() - 24 * 60 * 60 * 1000), false, false, true);
+        }
       }
+      this.loader = false;
+    }, error => {
+      this.loader = false;
+      console.log(error);
     });
+    this.loader = false;
+  }
+
+  eliminarTodosSuenio(){
+    this.diasDeEjercicio = this.diasDeEjercicio.filter(evento => evento.title !== "Sueño");
   }
 
   obtenerUltimoDato() {
@@ -184,5 +231,25 @@ export class HomePageComponent implements OnInit {
         }
       ]
     }
+  }
+
+  guardarCambios() {
+    this.loader = true;
+    this.usuarioService.updateSuenio(this.suenioActual).subscribe((response: any) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Sueño actualizado con extio',
+        text: response.msg,
+        confirmButtonText: 'Cerrar',
+      });
+      this.eliminarTodosSuenio();
+      this.obtenerTodosSuenio();
+      this.loader = false;
+      this.bloquarEditarSuenio = true;
+    });
+  }
+
+  activarEditarSuenio() {
+    this.bloquarEditarSuenio = false;
   }
 }

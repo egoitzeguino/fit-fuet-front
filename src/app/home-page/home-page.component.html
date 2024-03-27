@@ -1,4 +1,6 @@
+<mat-spinner class="spinner" *ngIf="loader"></mat-spinner>
 <div style="width: 80%; margin: 20px auto;">
+    <app-carrusel-imagenes></app-carrusel-imagenes>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -107,28 +109,46 @@
         <mat-tab label="Sueño" *ngIf="fechaContieneSuenio">
             <div class="modal-body">
                 <h2>Detalles del Sueño</h2>
-                <ul>
-                    <li><strong>Hora de Acostarse:</strong> {{ suenioActual?.horaAcostar | date:'HH:mm:ss' }}</li>
-                    <li><strong>Hora de Levantarse:</strong> {{ suenioActual?.horaLevantar | date:'HH:mm:ss' }}</li>
-                    <li><strong>Calidad del Sueño:</strong> {{ suenioActual?.calidad | titlecase }}</li>
-                    <li><strong>Número de Veces Levantado:</strong> {{ suenioActual?.numLevantar }}</li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+                <form #suenioForm="ngForm" (ngSubmit)="guardarCambios()">
+                    <div class="form-group">
+                        <label>Te dormiste a las:</label>
+                        <input type="datetime-local" class="form-control" name="horaAcostar" [disabled]="bloquarEditarSuenio" [(ngModel)]="suenioActual!.horaAcostar">
+                    </div>
+                    <div class="form-group">
+                        <label>Te levantaste a las:</label>
+                        <input type="datetime-local" class="form-control" name="horaLevantar" [disabled]="bloquarEditarSuenio" [(ngModel)]="suenioActual!.horaLevantar">
+                    </div>
+                    <div class="form-group">
+                        <label>Calidad del Sueño:</label>
+                        <mat-select class="form-control" [disabled]="bloquarEditarSuenio" [(value)]="suenioActual!.calidad">
+                            <mat-option value="buena">Buena</mat-option>
+                            <mat-option value="regular">Regular</mat-option>
+                            <mat-option value="mala">Mala</mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de veces que te levantaste:</label>
+                        <input type="number" class="form-control" name="numLevantar" [disabled]="bloquarEditarSuenio" [(ngModel)]="suenioActual!.numLevantar">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" *ngIf="bloquarEditarSuenio" (click)="activarEditarSuenio()"><i class="bi bi-pen"></i> Editar</button>
+                        <button type="submit" class="btn btn-primary" *ngIf="!bloquarEditarSuenio">Guardar Cambios</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="close()">Cancelar</button>
+                    </div>
+                </form>
             </div>
         </mat-tab>
     </mat-tab-group>
 </ng-template>
 
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Kcal quemadas por hora según los pesos corporales (datos aproximádos)</h2>
+<div class="container mt-4 ">
+    <div class="card ">
+        <div class="card-header ">
+            <h2 class="card-title ">Kcal quemadas por hora según los pesos corporales (datos aproximádos)</h2>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered">
+        <div class="card-body ">
+            <div class="table-responsive ">
+                <table class="table table-bordered ">
                     <thead>
                         <tr>
                             <th>Peso corporal (kg)</th>

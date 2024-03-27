@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuarioService.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -20,15 +20,35 @@ export class SuenioComponent implements OnInit{
   ) {
     this.suenioForm = this.fb.group({
       horaAcostar: ['', Validators.required],
-      horaLevantar: ['', [ Validators.required]],
+      horaLevantar: ['', [Validators.required]],
       calidad: ['', [Validators.required]],
       numLevantar: ['', [ Validators.required]],
-    })
+    }, { validators: this.diferenciaMaximaUnDia })
   }
 
   ngOnInit(): void {
 
   }
+
+  diferenciaMaximaUnDia(control: AbstractControl): { [key: string]: any } | null {
+    const horaAcostar = new Date(control.get('horaAcostar')?.value);
+    const horaLevantar = new Date(control.get('horaLevantar')?.value);
+
+    if (!horaAcostar || !horaLevantar) {
+      return null;
+    }
+
+    const diferencia = Math.abs(horaLevantar.getTime() - horaAcostar.getTime());
+
+    const diasDiferencia = Math.ceil(diferencia / (1000 * 3600 * 24));
+
+    if (diasDiferencia > 1) {
+      return { diferenciaMaximaUnDia: true };
+    }
+
+    return null;
+  }
+
   agregarSuenio() {
     const nuevaSuenio = { ...this.suenioForm.value };
 
@@ -53,7 +73,7 @@ export class SuenioComponent implements OnInit{
         horaAcostar: new Date(new Date(nuevoSuenio.horaAcostar).getTime() + 60 * 60 * 1000),
         horaLevantar: new Date(new Date(nuevoSuenio.horaLevantar).getTime() + 60 * 60 * 1000),
         calidad: nuevoSuenio.calidad,
-        numLevantar: nuevoSuenio.numLevantar
+        numLevantar: parseInt(nuevoSuenio.numLevantar)
       };
 
       this.usuarioService.addSuenio(suenio).subscribe(

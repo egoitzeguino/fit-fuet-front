@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('idUsuario', idUsuario);
             localStorage.setItem('email', email);
             localStorage.setItem('dni', dni);
-            window.location.href = '/about';
+            window.location.href = '/home-page';
           },
           (error) => {
             Swal.fire({

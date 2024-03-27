@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DatosUsuario } from '../interfaces/datosUsuario';
+import { Suenio } from '../interfaces/suenio';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,11 @@ export class UsuarioService {
   }
 
   obtenerSuenio(idUsuario: number, fecha: string):Observable<any>{
-    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/get-suenio?idUsuario=${idUsuario}&horaAcostar=${fecha}`);
+    return this.http.get<any>(`${this.APIURL.URL}/api/Usuario/get-suenio?idUsuario=${idUsuario}&horaLevantar=${fecha}`);
+  }
+
+  updateSuenio(suenio: Suenio):Observable<any>{
+    return this.http.put<any>(`${this.APIURL.URL}/api/Usuario/update-suenio`,suenio);
   }
 
   obtenerObjetivo(idUsuario: number): Observable<any> {
